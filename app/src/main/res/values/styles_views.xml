@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<style name="InputField" parent="Widget.AppCompat.EditText" />-->
+
+    <!--<style name="InputField.Credential">-->
+        <!--<item name="android:paddingTop">4dp</item>-->
+        <!--<item name="android:paddingBottom">12dp</item>-->
+        <!--<item name="android:layout_marginLeft">@dimen/horizontal_widget_margin</item>-->
+        <!--<item name="android:layout_marginRight">@dimen/horizontal_widget_margin</item>-->
+        <!--<item name="android:inputType">textCapWords</item>-->
+        <!--<item name="android:gravity">center_horizontal</item>-->
+    <!--</style>-->
+
+    <!--<style name="InputField.Credential.Name">-->
+        <!--<item name="android:inputType">textCapWords</item>-->
+    <!--</style>-->
+
+    <!--<style name="InputField.Credential.Email">-->
+        <!--<item name="android:inputType">textEmailAddress</item>-->
+    <!--</style>-->
+
+    <!--<style name="InputField.Credential.Password">-->
+        <!--<item name="android:inputType">textPassword</item>-->
+    <!--</style>-->
+    <!--&lt;!&ndash; *********************** Labels  *********************** &ndash;&gt;-->
+    <!--<style name="Label">-->
+        <!--<item name="android:fontFamily">sans-serif-light</item>-->
+        <!--<item name="android:alpha">.86</item>-->
+        <!--<item name="android:textColor">@color/colorWhite</item>-->
+    <!--</style>-->
+
+    <!--<style name="Label.CredentialHeader">-->
+        <!--<item name="android:layout_marginBottom">32dp</item>-->
+        <!--<item name="android:textSize">34sp</item>-->
+    <!--</style>-->
+
+    <!--<style name="Label.CardHeader" >-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+        <!--<item name="android:textSize">24sp</item>-->
+        <!--<item name="android:fontFamily">sans-serif-medium</item>-->
+    <!--</style>-->
+
+</resources>

@@ -1,27 +1,12 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/primary_light</item>
-        <item name="colorPrimaryLight">@color/primary_light</item>
-        <item name="colorPrimaryTxt">@color/primary_text</item>
-        <item name="colorSecondaryTxt">@color/secondary_text</item>
-        <item name="colorIcons">@color/icons</item>
-        <item name="colorDivider">@color/divider</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryTxt</item>
+        <item name="android:textColorSecondary">@color/colorSecondaryTxt</item>
         <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <!-- *********************** Labels  *********************** -->
-    <style name="Label">
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:alpha">.86</item>
-        <item name="android:textColor">@color/colorWhite</item>
-    </style>
-
-    <style name="Label.CredentialHeader">
-        <item name="android:layout_marginBottom">32dp</item>
-        <item name="android:textSize">34sp</item>
     </style>
 
 </resources>

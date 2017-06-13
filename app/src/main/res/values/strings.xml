@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Gamification</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
+
+    <string name="app_name">Gamification</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>
