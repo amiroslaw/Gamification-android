@@ -1,30 +1,32 @@
 package xyz.miroslaw.gamification_android.createDeck;
 
-/**
- * Created by miro on 13.06.17.
- */
 
 public class CreateDeckPresenter implements CreateDeckContract.Presenter {
-    private CreateDeckContract.View view;
+    private CreateDeckContract.FormView formView;
+    private CreateDeckContract.NavigationView navigationView;
 
-    public CreateDeckPresenter(CreateDeckContract.View view){
-        this.view = view;
+    public CreateDeckPresenter(CreateDeckContract.NavigationView view){
+        this.navigationView = view;
+        view.setPresenter(this);
+    }
+    public CreateDeckPresenter(CreateDeckContract.FormView view){
+        this.formView = view;
         view.setPresenter(this);
     }
 
     @Override
     public void onNextClick() {
-        view.setTxtTypeValue("next");
-
+        navigationView.setTxtTypeValue("next");
     }
 
     @Override
     public void onPrevClick() {
-        view.setTxtTypeValue("prev");
+        navigationView.setTxtTypeValue("prev");
     }
 
     @Override
     public void onGetImgClick() {
+        formView.changeTxtGetImg("switch");
 
     }
 }

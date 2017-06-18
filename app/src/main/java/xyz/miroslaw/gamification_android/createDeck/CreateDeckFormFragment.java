@@ -5,13 +5,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
 
 
-public class CreateDeckFormFragment extends Fragment implements CreateDeckContract.View {
+public class CreateDeckFormFragment extends Fragment implements CreateDeckContract.FormView {
+    @BindView(R.id.btn_createDeck_setImg)
+    Button getImg;
 
     private CreateDeckContract.Presenter presenter;
 
@@ -20,11 +25,6 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     }
     public static CreateDeckFormFragment newInstance() {
         return new CreateDeckFormFragment();
-    }
-
-    @Override
-    public void setPresenter(CreateDeckContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -48,15 +48,16 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
 
 
     @Override
-    public void setTxtTypeValue(String value) {
-
-    }
-
-    @Override
     public void onDestroy(){
         super.onDestroy();
     }
 
+
+
+    @Override
+    public void setPresenter(CreateDeckContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
 
     @Override
     public void makeToast(String message) {
@@ -68,4 +69,16 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     public String showPhoto() {
         return null;
     }
+
+    @Override
+    public void changeTxtGetImg(String txt) {
+        getImg.setText(txt);
+    }
+
+    @OnClick(R.id.btn_createDeck_setImg)
+    public void onGetImgClick() {
+        presenter.onGetImgClick();
+    }
+
+
 }

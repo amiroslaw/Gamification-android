@@ -14,7 +14,7 @@ import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
 
 
-public class CreateDeckNavigationFragment extends Fragment implements CreateDeckContract.View{
+public class CreateDeckNavigationFragment extends Fragment implements CreateDeckContract.NavigationView{
 
     private CreateDeckContract.Presenter presenter;
     @BindView(R.id.txt_createDeck_typeValue) TextView typeValue;
@@ -69,18 +69,12 @@ public class CreateDeckNavigationFragment extends Fragment implements CreateDeck
 
     @Override
     public void setPresenter(CreateDeckContract.Presenter presenter) {
-        this.presenter = presenter;
+        this.presenter =  presenter;
     }
 
     @Override
     public void makeToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public String showPhoto() {
-        return null;
-    }
-
 
 }
