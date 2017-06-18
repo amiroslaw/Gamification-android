@@ -5,4 +5,5 @@ package xyz.miroslaw.gamification_android;
  */
 
 public class MenuPresenterTest {
+
 }
