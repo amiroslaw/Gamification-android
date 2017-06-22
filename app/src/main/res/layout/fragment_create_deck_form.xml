@@ -41,15 +41,28 @@
             android:text="@string/createDeck_enterDescription"
             android:textColor="@android:color/black"
             android:visibility="visible" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            <Button
+                android:id="@+id/btn_createDeck_setImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/createDeck_setImgGallery" />
 
-        <Button
-            android:id="@+id/btn_createDeck_setImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/createDeck_setImg" />
+            <Button
+                android:id="@+id/btn_createDeck_cameraImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/createDeck_setImgCamera"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_formFragment_award"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.85"

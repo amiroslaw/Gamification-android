@@ -8,8 +8,11 @@ public interface CreateDeckContract {
 //        String getName();
 //        String getDescription();
 
-        String showPhoto();
-        void changeTxtGetImg(String txt);
+//        void changeTxtGetImg(String txt);
+        void openGallery();
+        void takePhoto();
+
+//        void showPhoto(String imgPath);
     }
     interface NavigationView extends BaseView <Presenter> {
         void  setTxtTypeValue(String value);
@@ -18,7 +21,9 @@ public interface CreateDeckContract {
     interface Presenter extends BasePresenter{
         void onNextClick();
         void onPrevClick();
-        void onGetImgClick();
+
+        void onImgBtnClick(String pathImg);
+
 //        void onImageLoaded();
 //        void onImageLoadFailure();
     }

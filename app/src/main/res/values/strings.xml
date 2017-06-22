@@ -2,14 +2,16 @@
     <string name="hello_blank_fragment">hello_blank_fragment</string>
 
     <string name="app_name">Gamification</string>
+    <string name="all_next">Next</string>
+    <string name="all_exit">Exit</string>
     <string name="createDeck_name">Name:</string>
     <string name="createDeck_enterName">Enter name</string>
     <string name="createDeck_description">Description:</string>
     <string name="createDeck_enterDescription">Enter description</string>
-    <string name="all_next">Next</string>
     <string name="createDeck_prev">Previous</string>
     <string name="createDeck_type">Type:</string>
-    <string name="createDeck_setImg">Choose image</string>
+    <string name="createDeck_setImgGallery">Gallery</string>
+    <string name="createDeck_setImgCamera">Camera</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>

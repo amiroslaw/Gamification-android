@@ -24,9 +24,11 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
         navigationView.setTxtTypeValue("prev");
     }
 
-    @Override
-    public void onGetImgClick() {
-        formView.changeTxtGetImg("switch");
 
+    @Override
+    public void onImgBtnClick(String pathImg) {
+//        formView.changeTxtGetImg("switch");
+//        formView.showPhoto(pathImg);
     }
+
 }
