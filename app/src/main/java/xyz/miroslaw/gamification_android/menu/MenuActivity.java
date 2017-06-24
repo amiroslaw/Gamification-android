@@ -13,8 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
+import xyz.miroslaw.gamification_android.deckList.DeckListActivity;
 import xyz.miroslaw.gamification_android.deckManager.DeckManagerActivity;
-import xyz.miroslaw.gamification_android.drawCard.DrawCardActivity;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
 
@@ -56,7 +56,7 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
                 intent = new Intent(this, CreateDeckActivity.class);
                 break;
             case 1:
-                intent = new Intent(this, DrawCardActivity.class);
+                intent = new Intent(this, DeckListActivity.class);
                 break;
             case 2:
                 intent = new Intent(this, DeckManagerActivity.class);
