@@ -12,6 +12,10 @@
     <string name="createDeck_type">Type:</string>
     <string name="createDeck_setImgGallery">Gallery</string>
     <string name="createDeck_setImgCamera">Camera</string>
+    <string name="all_delete">Delete</string>
+    <string name="all_duplicate">Duplicate</string>
+    <string name="deckManagerMenu_delete">Click to delete deck!</string>
+    <string name="deckManagerMenu_duplicate">Click to duplicate deck</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>

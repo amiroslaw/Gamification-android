@@ -1,4 +1,4 @@
-package xyz.miroslaw.gamification_android.deckList;
+package xyz.miroslaw.gamification_android.viewUtils;
 
 import android.view.View;
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+        android:id="@+id/item_delete"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/deckmanager_delete"
+        android:title="@string/all_delete"/>
+    <item
+        android:id="@+id/item_duplicate"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/deckmanager_duplicate"
+        android:title="@string/all_duplicate"/>
+</menu>

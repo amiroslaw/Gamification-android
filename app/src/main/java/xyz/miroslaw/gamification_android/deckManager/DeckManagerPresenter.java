@@ -1,8 +1,12 @@
 package xyz.miroslaw.gamification_android.deckManager;
 
-/**
- * Created by miro on 13.06.17.
- */
 
-public class DeckManagerPresenter {
-}
+public class DeckManagerPresenter implements DeckManagerContract.Presenter {
+        private DeckManagerContract.View view;
+
+        public DeckManagerPresenter(DeckManagerContract.View view){
+            this.view = view;
+            view.setPresenter(this);
+        }
+
+    }
