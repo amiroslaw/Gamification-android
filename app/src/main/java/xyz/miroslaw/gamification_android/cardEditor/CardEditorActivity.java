@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import xyz.miroslaw.gamification_android.R;
 
-public class CardEditiorActivity extends AppCompatActivity {
+public class CardEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

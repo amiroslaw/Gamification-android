@@ -14,7 +14,7 @@ import xyz.miroslaw.gamification_android.R;
 
 
 public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyViewHolder> {
-    private List<Deck> deckList;
+    private List<Decks> decksList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_deckList_name)
@@ -29,8 +29,8 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
         }
     }
 
-    public DeckListAdapter(List<Deck> deckList) {
-        this.deckList = deckList;
+    public DeckListAdapter(List<Decks> decksList) {
+        this.decksList = decksList;
     }
 
     @Override
@@ -43,14 +43,14 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Deck deck = deckList.get(position);
-        holder.deckName.setText(deck.getDeckName());
-        holder.id.setText(Integer.toString(deck.getId()));
+        Decks decks = decksList.get(position);
+        holder.deckName.setText(decks.getDeckName());
+        holder.id.setText(Integer.toString(decks.getId()));
     }
 
     @Override
     public int getItemCount() {
-        return deckList.size();
+        return decksList.size();
     }
 
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_deckList"
-    tools:context="xyz.miroslaw.gamification_android.deckList.DeckListFragment">
+    tools:context="xyz.miroslaw.gamification_android.decksList.DeckListFragment">
 
 
     <android.support.v7.widget.RecyclerView

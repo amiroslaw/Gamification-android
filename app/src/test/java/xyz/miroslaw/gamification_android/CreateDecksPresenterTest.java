@@ -13,15 +13,13 @@ import xyz.miroslaw.gamification_android.createDeck.CreateDeckPresenter;
 
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by miro on 14.06.17.
- */
+
 @RunWith(MockitoJUnitRunner.class)
-public class CreateDeckPresenterTest {
+public class CreateDecksPresenterTest {
     private CreateDeckPresenter presenter;
 
     @Mock
-    private CreateDeckContract.View view;
+    private CreateDeckContract.NavigationView view;
 
     @Before
     void setup(){

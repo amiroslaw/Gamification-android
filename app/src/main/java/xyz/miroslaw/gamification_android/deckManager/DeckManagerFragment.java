@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
-import xyz.miroslaw.gamification_android.viewUtils.Deck;
+import xyz.miroslaw.gamification_android.viewUtils.Decks;
 import xyz.miroslaw.gamification_android.viewUtils.DeckListAdapter;
 import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 
@@ -30,19 +30,19 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     @BindView(R.id.rv_deckList)
     RecyclerView recyclerView;
     ActionMode actionMode;
-    private List<Deck> deckList = Arrays.asList(
-            new Deck(1, "DeckManagerFragment"),
-            new Deck(2, "fjcccccccdi"),
-            new Deck(3, "fjdaaaaaai"),
-            new Deck(1, "fjdi"),
-            new Deck(2, "fjdeeeeei"), new Deck(1, "fjdi"),
-            new Deck(2, "fjdi"),
-            new Deck(3, "fjdssssi"), new Deck(1, "fjdi"),
-            new Deck(2, "fjddddddddi"),
-            new Deck(3, "fjdi"), new Deck(1, "fjdi"),
-            new Deck(2, "fjdi"),
-            new Deck(3, "fjdi"),
-            new Deck(3, "fjdi")
+    private List<Decks> decksList = Arrays.asList(
+            new Decks(1, "DeckManagerFragment"),
+            new Decks(2, "fjcccccccdi"),
+            new Decks(3, "fjdaaaaaai"),
+            new Decks(1, "fjdi"),
+            new Decks(2, "fjdeeeeei"), new Decks(1, "fjdi"),
+            new Decks(2, "fjdi"),
+            new Decks(3, "fjdssssi"), new Decks(1, "fjdi"),
+            new Decks(2, "fjddddddddi"),
+            new Decks(3, "fjdi"), new Decks(1, "fjdi"),
+            new Decks(2, "fjdi"),
+            new Decks(3, "fjdi"),
+            new Decks(3, "fjdi")
     );
 
     private DeckListAdapter deckListAdapter;
@@ -77,7 +77,7 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     }
 
     private void createRrecyclerview() {
-        deckListAdapter = new DeckListAdapter(deckList);
+        deckListAdapter = new DeckListAdapter(decksList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -86,8 +86,8 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
             @Override
             public void onClick(View view, int position) {
                 //TODO presenter  open editcard
-                Deck deck = deckList.get(position);
-                Toast.makeText(getContext().getApplicationContext(), deck.getDeckName() + " is selected!", Toast.LENGTH_SHORT).show();
+                Decks decks = decksList.get(position);
+                Toast.makeText(getContext().getApplicationContext(), decks.getDeckName() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -26,6 +26,7 @@ public class DeckListActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_deckList, fragment, fragment.getTag());
         transaction.commit();
 
+
     }
 
 }

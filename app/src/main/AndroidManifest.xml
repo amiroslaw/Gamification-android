@@ -30,7 +30,7 @@
         <activity android:name=".createDeck.CreateDeckActivity" />
         <activity android:name=".deckManager.DeckManagerActivity" />
         <activity android:name=".drawCard.DrawCardActivity" />
-        <activity android:name=".cardEditor.CardEditiorActivity" />
+        <activity android:name=".cardEditor.CardEditorActivity" />
         <activity android:name=".setupCard.SetupCardActivity" />
         <activity android:name=".deckList.DeckListActivity"></activity>
     </application>
