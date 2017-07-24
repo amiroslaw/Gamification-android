@@ -12,7 +12,7 @@ public class Card implements BaseModel {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
-    private int type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
+    private CardType type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
     @DatabaseField(canBeNull = false)
     private String title;
     @DatabaseField
@@ -24,18 +24,19 @@ public class Card implements BaseModel {
 
     }
 
-    public Card(int type, String title) {
+    public Card(CardType type, String title) {
         this();
-        this.type = type;
+        this.type = this.type;
         this.title = title;
     }
 
-    public Card(int type, String title, String description, String image) {
+    public Card(CardType type , String title, String description, String image) {
         this(type, title);
         this.description = description;
         this.image = image;
     }
-    public Card(Card card){
+
+    public Card(Card card) {
 //        this.id = id;
         this.deck = null;
         this.type = card.type;
@@ -60,11 +61,11 @@ public class Card implements BaseModel {
         this.deck = deck;
     }
 
-    public int getType() {
+    public CardType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(CardType type) {
         this.type = type;
     }
 
@@ -97,4 +98,10 @@ public class Card implements BaseModel {
         return "type " + type + "; " + title + ": " + description;
     }
 
+//    public enum CardType {
+//        LARGE,
+//        MEDIUM,
+//        SMALL,
+//        DEFAULT;
+//    }
 }

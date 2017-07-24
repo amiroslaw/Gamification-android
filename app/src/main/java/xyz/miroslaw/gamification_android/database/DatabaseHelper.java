@@ -16,7 +16,7 @@ import xyz.miroslaw.gamification_android.model.Deck;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME    = "ormlite.db";
-    private static final int    DATABASE_VERSION = 1;
+    private static final int    DATABASE_VERSION = 2;
 
     private Dao<Card, Integer> cardDao = null;
     private Dao<Deck, Integer> deckDao = null;

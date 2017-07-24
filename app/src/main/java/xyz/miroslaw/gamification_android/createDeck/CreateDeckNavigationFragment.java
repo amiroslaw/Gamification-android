@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,10 @@ import xyz.miroslaw.gamification_android.R;
 public class CreateDeckNavigationFragment extends Fragment implements CreateDeckContract.NavigationView{
 
     private CreateDeckContract.Presenter presenter;
-    @BindView(R.id.txt_createDeck_typeValue) TextView typeValue;
+    @BindView(R.id.txt_createDeck_typeValue) TextView txtTypeValue;
+    @BindView(R.id.btn_createDeck_previous)
+    Button btnPrev;
+
 
     public CreateDeckNavigationFragment() {
         // Required empty public constructor
@@ -37,6 +41,7 @@ public class CreateDeckNavigationFragment extends Fragment implements CreateDeck
         if (presenter == null) {
             presenter = new CreateDeckPresenter(this);
         }
+
     }
 
     @Override
@@ -44,6 +49,7 @@ public class CreateDeckNavigationFragment extends Fragment implements CreateDeck
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_deck_navigation, container, false);
         ButterKnife.bind(this, view);
+        btnPrev.setText(getActivity().getClass().getSimpleName());
 
         return view;
     }
@@ -54,12 +60,12 @@ public class CreateDeckNavigationFragment extends Fragment implements CreateDeck
     }
     @OnClick(R.id.btn_createDeck_next)
     public void onNextClick(){
-        presenter.onNextClick();
+
     }
 
     @Override
     public void setTxtTypeValue(String value) {
-        typeValue.setText(value);
+        txtTypeValue.setText(value);
     }
 
     @Override
@@ -76,5 +82,6 @@ public class CreateDeckNavigationFragment extends Fragment implements CreateDeck
     public void makeToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
 
 }

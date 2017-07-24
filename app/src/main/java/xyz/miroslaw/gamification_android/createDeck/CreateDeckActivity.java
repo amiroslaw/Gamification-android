@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import xyz.miroslaw.gamification_android.R;
 
 public class CreateDeckActivity extends AppCompatActivity {
+    private final String DEBUGTAG = "myDebug "+getClass().getSimpleName();
 
     private FragmentManager manager;
     CreateDeckNavigationFragment navigationFragment;
@@ -22,16 +23,18 @@ public class CreateDeckActivity extends AppCompatActivity {
         manager = this.getSupportFragmentManager();
         navigationFragment = (CreateDeckNavigationFragment) manager.findFragmentById(R.id.fragment_createDeckNavigation);
         formFragment =  (CreateDeckFormFragment) manager.findFragmentById(R.id.fragment_createDeckForm);
-        checkIfNull();
+        getFragmentsInstances();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_createDeckNavigation, navigationFragment, navigationFragment.getTag());
         transaction.commit();
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_createDeckForm, formFragment, formFragment.getTag());
         transaction.commit();
+
+
     }
 
-    private void checkIfNull() {
+    private void getFragmentsInstances() {
         if (formFragment == null) {
             formFragment = CreateDeckFormFragment.newInstance();
         }
@@ -39,4 +42,6 @@ public class CreateDeckActivity extends AppCompatActivity {
             navigationFragment = CreateDeckNavigationFragment.newInstance();
         }
     }
+
+
 }

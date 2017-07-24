@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,23 +23,23 @@ import xyz.miroslaw.gamification_android.R;
 
 
 public class CreateDeckFormFragment extends Fragment implements CreateDeckContract.FormView {
-    private static final int SELECT_FILE =  0, REQUEST_CAMERA = 1;
+    private static final int SELECT_FILE = 0, REQUEST_CAMERA = 1;
     @BindView(R.id.iv_formFragment_award)
-    ImageView awardImg;
-
+    ImageView ivAward;
+    @BindView(R.id.et_createDeck_name)
+    EditText etName;
+    @BindView(R.id.et_createDeck_description)
+    EditText etDescription;
     private CreateDeckContract.Presenter presenter;
 
     public CreateDeckFormFragment() {
         // Required empty public constructor
     }
+
     public static CreateDeckFormFragment newInstance() {
         return new CreateDeckFormFragment();
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
 
     @Override
     public void setPresenter(CreateDeckContract.Presenter presenter) {
@@ -54,19 +55,23 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
-
-
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (presenter == null) {
-            presenter = new CreateDeckPresenter(this);
+            presenter = new CreateDeckPresenter(this, getContext());
         }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_deck_form, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -76,6 +81,12 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
         intent.setType("image/*");
         //startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
         startActivityForResult(intent, SELECT_FILE);
+    }
+
+    @Override
+    public void clearTexts() {
+        etDescription.setText("");
+        etName.setText("");
     }
 
     @Override
@@ -89,20 +100,20 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
 
-            if(requestCode==REQUEST_CAMERA){
+            if (requestCode == REQUEST_CAMERA) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                awardImg.setImageBitmap(imageBitmap);
+                ivAward.setImageBitmap(imageBitmap);
                 sendImgPath(data.getData());
 
-            }else if(requestCode==SELECT_FILE){
+            } else if (requestCode == SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
                 sendImgPath(selectedImageUri);
-                awardImg.setImageURI(selectedImageUri);
+                ivAward.setImageURI(selectedImageUri);
             }
 
         }
@@ -116,8 +127,8 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -127,6 +138,10 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
             }
         }
     }
+
+    public void nextCard() {
+        presenter.onNextClick(etName.getText().toString(), etDescription.getText().toString());
+    }
 //    @Override
 //    public void showPhoto(String imgPath) {
 //        String path = Environment.getExternalStorageDirectory() + imgPath;
@@ -134,7 +149,7 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
 //        File file = new File(path);
 //        if(file.exists()){
 //            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//            awardImg.setImageBitmap(myBitmap);
+//            ivAward.setImageBitmap(myBitmap);
 //            makeToast(imgPath);
 //        } else {
 //            makeToast("nie wczytało obrazka");
