@@ -2,13 +2,15 @@ package xyz.miroslaw.gamification_android.createDeck;
 
 import xyz.miroslaw.gamification_android.BasePresenter;
 import xyz.miroslaw.gamification_android.BaseView;
+import xyz.miroslaw.gamification_android.model.CardType;
 
 public interface CreateDeckContract {
     interface View extends BaseView <Presenter> {
         void takePhoto();
         void openGallery();
 
-        void setTxtTypeValue(String value);
+        void showTypeValue(CardType type);
+
         void setPrevCardValues(String name, String description, String pathImg);
         void clearTexts();
         void disableReturning(boolean enable);

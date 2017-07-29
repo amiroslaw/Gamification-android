@@ -20,6 +20,7 @@
     <string name="all_cancel">Cancel</string>
     <string name="all_ok">OK</string>
     <string name="change_name_emptyField">Please fill field</string>
+    <string name="all_award">award</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>

@@ -5,7 +5,7 @@ public enum CardType {
     LARGE,
     MEDIUM,
     SMALL,
-    DEFAULT;
+    EMPTY;
 }
 
 

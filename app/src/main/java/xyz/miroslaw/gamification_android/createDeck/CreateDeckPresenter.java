@@ -15,9 +15,8 @@ import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.model.Deck;
 
 public class CreateDeckPresenter implements CreateDeckContract.Presenter {
-    private final int maxCardInDeck = 3;
-    //  TODO:  private  final int maxCardInDeck = 10;
     private final String DEBUGTAG = "myDebug " + getClass().getSimpleName();
+    private  final int maxCardInDeck = 10;
 
     private CreateDeckContract.View view;
     private Deque<Card> cards = new ArrayDeque<>();
@@ -41,7 +40,7 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
         cards.add(new Card(type, name, description, imgPath));
         cardCounter++;
         type = computeType(cardCounter);
-        view.setTxtTypeValue(type.toString());
+        view.showTypeValue(type);
         view.clearTexts();
         if (cardCounter > maxCardInDeck) {
             view.showDialog();
@@ -58,7 +57,7 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
     public void onPrevClick() {
         cardCounter --;
         Card card = cards.pollLast();
-        view.setTxtTypeValue(card.getType().toString());
+        view.showTypeValue(card.getType());
         view.setPrevCardValues(card.getTitle(), card.getDescription(), card.getImage());
         if(cardCounter <= 1){
             view.disableReturning(true);

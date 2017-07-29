@@ -60,7 +60,7 @@ public class CreateDeckNavigationFragment extends Fragment {
     }
 
 //    @Override
-//    public void setTxtTypeValue(String value) {
+//    public void showTypeValue(String value) {
 ////        txtTypeValue.setText(value);
 //    }
 //

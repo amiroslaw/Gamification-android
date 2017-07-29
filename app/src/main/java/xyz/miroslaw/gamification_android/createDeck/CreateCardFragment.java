@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -26,7 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
+import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 
 
 public class CreateCardFragment extends Fragment implements CreateDeckContract.View {
@@ -37,8 +39,8 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     EditText etName;
     @BindView(R.id.et_createCard_description)
     EditText etDescription;
-    @BindView(R.id.txt_createCard_typeValue)
-    TextView txtTypeValue;
+    @BindView(R.id.rl_createCard_typeValue)
+    RelativeLayout rlTypeValue;
     @BindView(R.id.btn_createCard_previous)
     Button btnPrev;
     private CreateDeckContract.Presenter presenter;
@@ -75,7 +77,6 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
         if (presenter == null) {
             presenter = new CreateDeckPresenter(this, getContext());
         }
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_card, container, false);
         view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
             @Override
@@ -90,6 +91,7 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
             }
         });
         ButterKnife.bind(this, view);
+        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.LARGE);
         return view;
     }
 
@@ -171,8 +173,8 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     }
 
     @Override
-    public void setTxtTypeValue(String value) {
-        txtTypeValue.setText(value);
+    public void showTypeValue(CardType type) {
+        TypeRange.drawHeart(rlTypeValue, getActivity(), type);
     }
 
     @Override
