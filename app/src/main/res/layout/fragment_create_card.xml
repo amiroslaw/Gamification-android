@@ -1,44 +1,81 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_createDeckForm"
+    android:id="@+id/fragment_createCard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.miroslaw.gamification_android.createDeck.CreateDeckFormFragment">
+    tools:context="xyz.miroslaw.gamification_android.createDeck.CreateCardFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
+            <Button
+                android:id="@+id/btn_createCard_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/createDeck_prev" />
+
+            <Button
+                android:id="@+id/btn_createCard_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/all_next" />
+
+            <TextView
+                android:id="@+id/txt_createCard_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_createCard_next"
+                android:padding="20dp"
+                android:text="@string/createDeck_type" />
+
+            <TextView
+                android:id="@+id/txt_createCard_typeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_createCard_next"
+                android:layout_toRightOf="@id/txt_createCard_type"
+                android:padding="20dp"
+                android:text="LARGE"
+                />
+        </RelativeLayout>
         <TextView
-            android:id="@+id/txt_createDeck_name"
+            android:id="@+id/txt_createCard_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/createDeck_name" />
 
         <EditText
-            android:id="@+id/et_createDeck_name"
+            android:id="@+id/et_createCard_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:text="@string/createDeck_enterName"
+            android:hint="@string/all_enterName"
             android:textColor="@android:color/black"
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/txt_createDeck_description"
+            android:id="@+id/txt_createCard_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/createDeck_description" />
 
         <EditText
-            android:id="@+id/et_createDeck_description"
+            android:id="@+id/et_createCard_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:text="@string/createDeck_enterDescription"
+            android:hint="@string/createDeck_enterDescription"
             android:textColor="@android:color/black"
             android:visibility="visible" />
         <RelativeLayout
@@ -46,13 +83,13 @@
             android:layout_height="wrap_content">
             android:orientation="horizontal"
             <Button
-                android:id="@+id/btn_createDeck_setImg"
+                android:id="@+id/btn_createCard_setImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/createDeck_setImgGallery" />
 
             <Button
-                android:id="@+id/btn_createDeck_cameraImg"
+                android:id="@+id/btn_createCard_cameraImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/createDeck_setImgCamera"
@@ -60,9 +97,8 @@
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
-
         <ImageView
-            android:id="@+id/iv_formFragment_award"
+            android:id="@+id/iv_createCard_award"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.85"

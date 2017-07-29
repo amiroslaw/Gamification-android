@@ -13,7 +13,7 @@
 
         />
     <FrameLayout
-        android:id="@+id/fragment_createDeckForm"
+        android:id="@+id/fragment_createCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

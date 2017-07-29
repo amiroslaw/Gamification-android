@@ -12,8 +12,7 @@ public class CreateDeckActivity extends AppCompatActivity {
     private final String DEBUGTAG = "myDebug "+getClass().getSimpleName();
 
     private FragmentManager manager;
-    CreateDeckNavigationFragment navigationFragment;
-    CreateDeckFormFragment formFragment;
+    CreateCardFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,27 +20,14 @@ public class CreateDeckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_deck);
 
         manager = this.getSupportFragmentManager();
-        navigationFragment = (CreateDeckNavigationFragment) manager.findFragmentById(R.id.fragment_createDeckNavigation);
-        formFragment =  (CreateDeckFormFragment) manager.findFragmentById(R.id.fragment_createDeckForm);
-        getFragmentsInstances();
+        fragment =  (CreateCardFragment) manager.findFragmentById(R.id.fragment_createCard);
+        if (fragment == null) {
+            fragment = CreateCardFragment.newInstance();
+        }
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_createDeckNavigation, navigationFragment, navigationFragment.getTag());
-        transaction.commit();
-        transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_createDeckForm, formFragment, formFragment.getTag());
+        transaction.replace(R.id.fragment_createCard, fragment, fragment.getTag());
         transaction.commit();
 
-
     }
-
-    private void getFragmentsInstances() {
-        if (formFragment == null) {
-            formFragment = CreateDeckFormFragment.newInstance();
-        }
-        if (navigationFragment == null) {
-            navigationFragment = CreateDeckNavigationFragment.newInstance();
-        }
-    }
-
 
 }

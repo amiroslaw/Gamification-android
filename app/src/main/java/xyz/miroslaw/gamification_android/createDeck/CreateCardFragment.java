@@ -1,6 +1,7 @@
 package xyz.miroslaw.gamification_android.createDeck;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,35 +10,46 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
 
 
-public class CreateDeckFormFragment extends Fragment implements CreateDeckContract.FormView {
+public class CreateCardFragment extends Fragment implements CreateDeckContract.View {
     private static final int SELECT_FILE = 0, REQUEST_CAMERA = 1;
-    @BindView(R.id.iv_formFragment_award)
+    @BindView(R.id.iv_createCard_award)
     ImageView ivAward;
-    @BindView(R.id.et_createDeck_name)
+    @BindView(R.id.et_createCard_name)
     EditText etName;
-    @BindView(R.id.et_createDeck_description)
+    @BindView(R.id.et_createCard_description)
     EditText etDescription;
+    @BindView(R.id.txt_createCard_typeValue)
+    TextView txtTypeValue;
+    @BindView(R.id.btn_createCard_previous)
+    Button btnPrev;
     private CreateDeckContract.Presenter presenter;
+    private boolean isFirstCard = true;
 
-    public CreateDeckFormFragment() {
+    public CreateCardFragment() {
         // Required empty public constructor
     }
 
-    public static CreateDeckFormFragment newInstance() {
-        return new CreateDeckFormFragment();
+    public static CreateCardFragment newInstance() {
+        return new CreateCardFragment();
     }
 
 
@@ -64,7 +76,19 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
             presenter = new CreateDeckPresenter(this, getContext());
         }
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_create_deck_form, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_card, container, false);
+        view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
+            @Override
+            public void onSwipeLeft() {
+                makeToast("swipeLeft");
+                onNextCard();
+            }
+            @Override
+            public void onSwipeRight() {
+                makeToast("swipeRight");
+                if(!isFirstCard) presenter.onPrevClick();
+            }
+        });
         ButterKnife.bind(this, view);
         return view;
     }
@@ -75,7 +99,7 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     }
 
     @Override
-    @OnClick(R.id.btn_createDeck_setImg)
+    @OnClick(R.id.btn_createCard_setImg)
     public void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
@@ -84,13 +108,7 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
     }
 
     @Override
-    public void clearTexts() {
-        etDescription.setText("");
-        etName.setText("");
-    }
-
-    @Override
-    @OnClick(R.id.btn_createDeck_cameraImg)
+    @OnClick(R.id.btn_createCard_cameraImg)
     public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
@@ -139,9 +157,86 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
         }
     }
 
-    public void nextCard() {
-        presenter.onNextClick(etName.getText().toString(), etDescription.getText().toString());
+    @Override
+    public void clearTexts() {
+        etDescription.setText("");
+        etName.setText("");
+        ivAward.setImageDrawable(null);
     }
+
+    @Override
+    public void disableReturning(boolean disable) {
+        isFirstCard = disable;
+        btnPrev.setEnabled(!disable);
+    }
+
+    @Override
+    public void setTxtTypeValue(String value) {
+        txtTypeValue.setText(value);
+    }
+
+    @Override
+    public void setPrevCardValues(String name, String description, String pathImg) {
+        etName.setText(name);
+        etDescription.setText(description);
+
+        boolean isPathInvalid = pathImg.equals("") || pathImg == null;
+        if (!isPathInvalid) {
+            Picasso.with(getContext()).load(pathImg).into(ivAward);
+        }
+    }
+
+    @OnClick(R.id.btn_createCard_next)
+    public void onNextCard() {
+        String name = etName.getText().toString();
+        if (name.equals("")) {
+            makeToast(getResources().getString(R.string.all_enterName));
+//            etName.setHighlightColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
+        } else {
+            etName.setBackgroundColor(000);
+            presenter.onNextClick(name, etDescription.getText().toString());
+        }
+    }
+
+    @OnClick(R.id.btn_createCard_previous)
+    public void onPreviousCard() {
+        presenter.onPrevClick();
+    }
+
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_change_name, null);
+        final EditText etName = (EditText) view.findViewById(R.id.et_change_name);
+        Button btnCancel = (Button) view.findViewById(R.id.btn_change_name_cancel);
+        Button btnAccept = (Button) view.findViewById(R.id.btn_change_name_accept);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.setCancelable(false).create();
+        dialog.show();
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String enteredName = etName.getText().toString();
+                boolean etIsNotEmpty = !enteredName.isEmpty();
+                if (etIsNotEmpty) {
+                    makeToast("send " + enteredName);
+                    presenter.setDeckName(enteredName);
+                    dialog.dismiss();
+                } else {
+                    makeToast(getString(R.string.change_name_emptyField));
+                }
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPreviousCard();
+                dialog.dismiss();
+            }
+        });
+    }
+}
 //    @Override
 //    public void showPhoto(String imgPath) {
 //        String path = Environment.getExternalStorageDirectory() + imgPath;
@@ -156,4 +251,3 @@ public class CreateDeckFormFragment extends Fragment implements CreateDeckContra
 //        }}
 
 
-}

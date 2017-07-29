@@ -8,7 +8,6 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Card implements BaseModel {
 
-
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
@@ -21,12 +20,11 @@ public class Card implements BaseModel {
     private Deck deck;
 
     public Card() {
-
     }
 
     public Card(CardType type, String title) {
         this();
-        this.type = this.type;
+        this.type = type;
         this.title = title;
     }
 

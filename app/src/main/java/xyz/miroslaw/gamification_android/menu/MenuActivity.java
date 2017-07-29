@@ -1,13 +1,14 @@
 package xyz.miroslaw.gamification_android.menu;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +32,10 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
             presenter = new MenuPresenter(this);
         }
         createListView();
-
-
-
+        //TODO: chrome inspect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
     }
 
     private void createListView() {
@@ -50,9 +52,6 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
     }
 
     private void changeActivity(int position) throws IllegalArgumentException {
-        Toast.makeText(getApplicationContext(),
-                "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                .show();
         //TODO move switch to presenter
         Intent intent;
         switch (position) {

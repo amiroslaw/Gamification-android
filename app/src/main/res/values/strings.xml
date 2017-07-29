@@ -5,7 +5,7 @@
     <string name="all_next">Next</string>
     <string name="all_exit">Exit</string>
     <string name="createDeck_name">Name:</string>
-    <string name="createDeck_enterName">Enter name</string>
+    <string name="all_enterName">Enter name</string>
     <string name="createDeck_description">Description:</string>
     <string name="createDeck_enterDescription">Enter description</string>
     <string name="createDeck_prev">Previous</string>
@@ -16,6 +16,10 @@
     <string name="all_duplicate">Duplicate</string>
     <string name="deckManagerMenu_delete">Click to delete decks!</string>
     <string name="deckManagerMenu_duplicate">Click to duplicate decks</string>
+    <string name="change_name_txt">Change name of deck</string>
+    <string name="all_cancel">Cancel</string>
+    <string name="all_ok">OK</string>
+    <string name="change_name_emptyField">Please fill field</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>

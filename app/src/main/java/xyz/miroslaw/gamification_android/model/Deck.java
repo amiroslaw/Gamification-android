@@ -8,84 +8,82 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-    public class Deck implements BaseModel {
+public class Deck implements BaseModel {
 
-        @DatabaseField(generatedId = true)
-        private int id;
-        @DatabaseField
-        private int howManyBlankCards;
-        @DatabaseField(unique = true, canBeNull = false)
-        private String deckName;
-        @DatabaseField(dataType = DataType.INTEGER)
-        private int isStarted = 0;
+    @DatabaseField(generatedId = true)
+    private int id;
+    @DatabaseField(canBeNull = false)
+    private String deckName;
+    @DatabaseField
+    private int howManyBlankCards;
+    @DatabaseField(dataType = DataType.INTEGER)
+    private int isStarted = 0;
+    @ForeignCollectionField
+    private ForeignCollection<Card> cards;
 
-        @ForeignCollectionField
-        private ForeignCollection<Card> cards;
+    public Deck() {
+    }
 
-        public Deck() {
+    public Deck(String deckName) {
+        this();
+        this.deckName = deckName;
+    }
 
-        }
+    public Deck(String deckName, int howManyCards) {
+        this(deckName);
+        this.howManyBlankCards = howManyCards;
+    }
 
-        public Deck(String deckName) {
-            this();
-            this.deckName = deckName;
-        }
+    public Deck(Deck deck) {
+        this.cards = deck.cards;
+        this.deckName = deck.deckName;
+        this.isStarted = deck.isStarted;
+        this.howManyBlankCards = deck.howManyBlankCards;
+    }
 
-        public Deck(int howManyCards, String deckName) {
-            this(deckName);
-            this.howManyBlankCards = howManyCards;
-        }
+    public ForeignCollection<Card> getCards() {
+        return cards;
+    }
 
-        public Deck(Deck deck) {
-            this.cards = deck.cards;
-            this.deckName = deck.deckName;
-            this.isStarted = deck.isStarted;
-            this.howManyBlankCards = deck.howManyBlankCards;
-        }
+    public void setCards(ForeignCollection<Card> cards) {
+        this.cards = cards;
+    }
 
-        public ForeignCollection<Card> getCards() {
-            return cards;
-        }
+    public int getIsStarted() {
+        return isStarted;
+    }
 
-        public void setCards(ForeignCollection<Card> cards) {
-            this.cards = cards;
-        }
+    public void setIsStarted(int isStarted) {
+        this.isStarted = isStarted;
+    }
 
-        public int getIsStarted() {
-            return isStarted;
-        }
+    public int getHowManyBlankCards() {
+        return howManyBlankCards;
+    }
 
-        public void setIsStarted(int isStarted) {
-            this.isStarted = isStarted;
-        }
+    public void setHowManyBlankCards(int howManyBlankCards) {
+        this.howManyBlankCards = howManyBlankCards;
+    }
 
-        public int getHowManyBlankCards() {
-            return howManyBlankCards;
-        }
+    public void setId(int ID) {
+        this.id = ID;
+    }
 
-        public void setHowManyBlankCards(int howManyBlankCards) {
-            this.howManyBlankCards = howManyBlankCards;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public void setId(int ID) {
-            this.id = ID;
-        }
+    public String getDeckName() {
+        return deckName;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setDeckName(String deckName) {
+        this.deckName = deckName;
+    }
 
-        public String getDeckName() {
-            return deckName;
-        }
-
-        public void setDeckName(String deckName) {
-            this.deckName = deckName;
-        }
-
-        @Override
-        public String toString() {
-            return "Decks [id=" + id + ", howManyCards=" + howManyBlankCards + ", deckName=" + deckName + ", isStarted="
-                    + isStarted + ", cards=" + cards + "]";
-        }
+    @Override
+    public String toString() {
+        return "Decks [id=" + id + ", howManyCards=" + howManyBlankCards + ", deckName=" + deckName + ", isStarted="
+                + isStarted + ", cards=" + cards + "]";
+    }
 }
