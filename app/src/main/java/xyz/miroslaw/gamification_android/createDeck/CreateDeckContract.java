@@ -8,13 +8,10 @@ public interface CreateDeckContract {
     interface View extends BaseView <Presenter> {
         void takePhoto();
         void openGallery();
-
         void showTypeValue(CardType type);
-
         void setPrevCardValues(String name, String description, String pathImg);
         void clearTexts();
         void disableReturning(boolean enable);
-
         void showDialog();
     }
 
@@ -24,8 +21,6 @@ public interface CreateDeckContract {
         void onImgBtnClick(String pathImg);
         void setDeckName(String deckName);
 
-//        void onImageLoaded();
-//        void onImageLoadFailure();
     }
 
 }

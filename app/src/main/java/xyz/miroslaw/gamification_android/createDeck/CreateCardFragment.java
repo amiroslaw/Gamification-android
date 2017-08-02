@@ -84,10 +84,11 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
                 makeToast("swipeLeft");
                 onNextCard();
             }
+
             @Override
             public void onSwipeRight() {
                 makeToast("swipeRight");
-                if(!isFirstCard) presenter.onPrevClick();
+                if (!isFirstCard) presenter.onPrevClick();
             }
         });
         ButterKnife.bind(this, view);
@@ -123,17 +124,13 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-
             if (requestCode == REQUEST_CAMERA) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 ivAward.setImageBitmap(imageBitmap);
                 sendImgPath(data.getData());
-
             } else if (requestCode == SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-                sendImgPath(selectedImageUri);
-                ivAward.setImageURI(selectedImageUri);
+                sendImgPath(data.getData());
             }
 
         }
@@ -141,8 +138,17 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
 
     private void sendImgPath(Uri selectedImageUri) {
         String imgPath = getRealPathFromURI(getContext(), selectedImageUri);
+        makeToast(imgPath);
         presenter.onImgBtnClick(imgPath);
+        ivAward.setImageURI(selectedImageUri);
+        //TODO: load from file
+        // you have two ways to display selected image
+//        Uri uriFromPath = Uri.fromFile(new File(imgPath));
+//        ivAward.setImageURI(uriFromPath);
+//        ivAward.setImageBitmap(BitmapFactory.decodeFile(selectedImageUri.getPath()));
+//        Picasso.with(getContext()).load(uriFromPath).into(ivAward);
     }
+
 
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
@@ -193,7 +199,6 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
         String name = etName.getText().toString();
         if (name.equals("")) {
             makeToast(getResources().getString(R.string.all_enterName));
-//            etName.setHighlightColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
             etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
         } else {
             etName.setBackgroundColor(000);

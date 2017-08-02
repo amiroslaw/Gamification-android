@@ -96,10 +96,4 @@ public class Card implements BaseModel {
         return "type " + type + "; " + title + ": " + description;
     }
 
-//    public enum CardType {
-//        LARGE,
-//        MEDIUM,
-//        SMALL,
-//        DEFAULT;
-//    }
 }

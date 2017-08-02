@@ -86,14 +86,6 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
             Log.d(DEBUGTAG, "saveDeck:  " + card.getTitle());
         }
         DatabaseManager.releaseHelper();
-
-//        Deck deck = new Deck("from presenter");
-//        Deck deck = deckDao.findById(1);
-
-//        Card card = new Card(CardType.SMALL, "type test");
-//        List<Deck> decks = deckDao.findAll();
-//        Deck fetchDeck = deckDao.findById(1);
-//        Log.d(DEBUGTAG, "onCreate: how many card " + cardDao.findAll().size());
     }
 
 }

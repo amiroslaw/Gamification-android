@@ -1,11 +1,9 @@
 package xyz.miroslaw.gamification_android.menu;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -33,9 +31,9 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
         }
         createListView();
         //TODO: chrome inspect
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            WebView.setWebContentsDebuggingEnabled(true);
+//        }
     }
 
     private void createListView() {
