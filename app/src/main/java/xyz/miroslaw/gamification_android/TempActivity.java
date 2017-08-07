@@ -13,12 +13,12 @@ public class TempActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_deck_list);
 //
 //        manager = this.getSupportFragmentManager();
-//        fragment = (DeckListFragment) manager.findFragmentById(R.id.fragment_deckList);
+//        fragment = (DeckListFragment) manager.findFragmentById(R.number.fragment_deckList);
 //        if (fragment == null) {
 //            fragment = DeckListFragment.newInstance();
 //        }
 //        FragmentTransaction transaction = manager.beginTransaction();
-//        transaction.replace(R.id.fragment_deckList, fragment, fragment.getTag());
+//        transaction.replace(R.number.fragment_deckList, fragment, fragment.getTag());
 //        transaction.commit();
 //
 //    }

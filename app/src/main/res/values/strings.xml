@@ -10,8 +10,7 @@
     <string name="createDeck_enterDescription">Enter description</string>
     <string name="createDeck_prev">Previous</string>
     <string name="createDeck_type">Type:</string>
-    <string name="createDeck_setImgGallery">Gallery</string>
-    <string name="createDeck_setImgCamera">Camera</string>
+    <string name="createDeck_setImgGallery">Add image</string>
     <string name="all_delete">Delete</string>
     <string name="all_duplicate">Duplicate</string>
     <string name="deckManagerMenu_delete">Click to delete decks!</string>
@@ -21,10 +20,14 @@
     <string name="all_ok">OK</string>
     <string name="change_name_emptyField">Please fill field</string>
     <string name="all_award">award</string>
+    <string name="list_info">You don\'t have any deck. Please create one.</string>
+    <string name="all_addDeck">Add deck</string>
+    <string name="all_name">Name</string>
+    <string name="deckList_number">No. awards</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
-        <item>Draw Card</item>
         <item>Deck Manager</item>
-        <!--<item>About</item>-->
+        <!--<item>Draw Card</item>-->
+        <item>About</item>
     </string-array>
 </resources>

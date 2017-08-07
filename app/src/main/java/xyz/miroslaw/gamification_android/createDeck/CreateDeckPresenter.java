@@ -2,7 +2,6 @@ package xyz.miroslaw.gamification_android.createDeck;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,8 +14,7 @@ import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.model.Deck;
 
 public class CreateDeckPresenter implements CreateDeckContract.Presenter {
-    private final String DEBUGTAG = "myDebug " + getClass().getSimpleName();
-    private  final int maxCardInDeck = 10;
+    private final int maxCardInDeck = 10;
 
     private CreateDeckContract.View view;
     private Deque<Card> cards = new ArrayDeque<>();
@@ -72,8 +70,8 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
     @Override
     public void setDeckName(String deckName) {
         deck.setDeckName(deckName);
-        Log.d(DEBUGTAG, "setDeckName: deck " + deck.getDeckName());
         saveDeck();
+        view.startDeckManagerActivity();
     }
 
     private void saveDeck() {
@@ -83,7 +81,6 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
             card = cards.poll();
             card.setDeck(deck);
             cardDao.createOrUpdate(card);
-            Log.d(DEBUGTAG, "saveDeck:  " + card.getTitle());
         }
         DatabaseManager.releaseHelper();
     }

@@ -78,15 +78,15 @@ public class CardDao implements CommonDao {
     }
 
     public int countMediumRewards(int id) throws SQLException {
-//        GenericRawResults<String[]> where = getDao().queryRaw("SELECT COUNT(*) FROM card WHERE type = 2 AND deck_id =" + id);
+//        GenericRawResults<String[]> where = getDao().queryRaw("SELECT COUNT(*) FROM card WHERE type = 2 AND deck_id =" + number);
         GenericRawResults<String[]> where = dbHelper.getCardDao().queryRaw("SELECT COUNT(*) FROM card WHERE type = 2");
         int result = Integer.parseInt(where.getFirstResult()[0]);
 
         return result;
     }
 
-//    public int countSmallRewards(int id) throws SQLException {
-//        GenericRawResults<String[]> where = getDao(Card.class).queryRaw("SELECT COUNT(*) FROM card WHERE type = 3 AND deck_id =" + id);
+//    public int countSmallRewards(int number) throws SQLException {
+//        GenericRawResults<String[]> where = getDao(Card.class).queryRaw("SELECT COUNT(*) FROM card WHERE type = 3 AND deck_id =" + number);
 //        return Integer.parseInt(where.getFirstResult()[0]);
 //    }
 

@@ -83,7 +83,7 @@ public class Deck implements BaseModel {
 
     @Override
     public String toString() {
-        return "Decks [id=" + id + ", howManyCards=" + howManyBlankCards + ", deckName=" + deckName + ", isStarted="
+        return "Decks [number=" + id + ", howManyCards=" + howManyBlankCards + ", deckName=" + deckName + ", isStarted="
                 + isStarted + ", cards=" + cards + "]";
     }
 }

@@ -14,43 +14,42 @@ import xyz.miroslaw.gamification_android.R;
 
 
 public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyViewHolder> {
-    private List<Decks> decksList;
+    private List<Item> items;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_deckList_name)
         public TextView deckName;
-        @BindView(R.id.txt_deckList_id)
-        public TextView id;
+        @BindView(R.id.txt_list_number)
+        public TextView number;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
         }
     }
 
-    public DeckListAdapter(List<Decks> decksList) {
-        this.decksList = decksList;
+    public DeckListAdapter(List<Item> items) {
+        this.items = items;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_deck, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Decks decks = decksList.get(position);
-        holder.deckName.setText(decks.getDeckName());
-        holder.id.setText(Integer.toString(decks.getId()));
+        Item item = items.get(position);
+        holder.deckName.setText(item.getName());
+        holder.number.setText(Integer.toString(item.getNumber()));
     }
 
     @Override
     public int getItemCount() {
-        return decksList.size();
+        return items.size();
     }
 
 

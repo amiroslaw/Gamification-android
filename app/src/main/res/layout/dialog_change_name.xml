@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/all_enterName"
-        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:inputType="text"
         android:textAlignment="center" />
 
     <RelativeLayout

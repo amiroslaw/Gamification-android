@@ -35,7 +35,7 @@ public class Card implements BaseModel {
     }
 
     public Card(Card card) {
-//        this.id = id;
+//        this.number = number;
         this.deck = null;
         this.type = card.type;
         this.title = card.title;

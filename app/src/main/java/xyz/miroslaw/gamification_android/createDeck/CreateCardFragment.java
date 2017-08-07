@@ -1,14 +1,11 @@
 package xyz.miroslaw.gamification_android.createDeck;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -20,19 +17,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.deckManager.DeckManagerActivity;
 import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
+import xyz.miroslaw.gamification_android.viewUtils.Tools;
 import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class CreateCardFragment extends Fragment implements CreateDeckContract.View {
-    private static final int SELECT_FILE = 0, REQUEST_CAMERA = 1;
+
+    private static final String STATE_IMG = "imagePath";
+    private static final String STATE_TYPE = "cardType";
+    private final String TAG = "myDebug " + getClass().getSimpleName();
+    private static final int SELECT_FILE = 0;
     @BindView(R.id.iv_createCard_award)
     ImageView ivAward;
     @BindView(R.id.et_createCard_name)
@@ -45,6 +50,8 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     Button btnPrev;
     private CreateDeckContract.Presenter presenter;
     private boolean isFirstCard = true;
+    private String imgPath ="";
+    private String type = "EMPTY";
 
     public CreateCardFragment() {
         // Required empty public constructor
@@ -54,21 +61,11 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
         return new CreateCardFragment();
     }
 
-
-    @Override
-    public void setPresenter(CreateDeckContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public void makeToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
+
     }
 
     @Override
@@ -78,6 +75,13 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
             presenter = new CreateDeckPresenter(this, getContext());
         }
         View view = inflater.inflate(R.layout.fragment_create_card, container, false);
+        setSwipe(view);
+        ButterKnife.bind(this, view);
+        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.LARGE);
+        return view;
+    }
+
+    private void setSwipe(final View view) {
         view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
             @Override
             public void onSwipeLeft() {
@@ -91,14 +95,6 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
                 if (!isFirstCard) presenter.onPrevClick();
             }
         });
-        ButterKnife.bind(this, view);
-        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.LARGE);
-        return view;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -106,91 +102,19 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     public void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-        //startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_FILE);
         startActivityForResult(intent, SELECT_FILE);
-    }
-
-    @Override
-    @OnClick(R.id.btn_createCard_cameraImg)
-    public void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CAMERA);
-        }
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ivAward.setImageBitmap(imageBitmap);
-                sendImgPath(data.getData());
-            } else if (requestCode == SELECT_FILE) {
-                sendImgPath(data.getData());
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_FILE) {
+                Uri selectedImageUri = data.getData();
+                ivAward.setImageURI(selectedImageUri);
+                imgPath = Tools.getRealPathFromURI(getContext(), selectedImageUri);
+                presenter.onImgBtnClick(imgPath);
             }
-
-        }
-    }
-
-    private void sendImgPath(Uri selectedImageUri) {
-        String imgPath = getRealPathFromURI(getContext(), selectedImageUri);
-        makeToast(imgPath);
-        presenter.onImgBtnClick(imgPath);
-        ivAward.setImageURI(selectedImageUri);
-        //TODO: load from file
-        // you have two ways to display selected image
-//        Uri uriFromPath = Uri.fromFile(new File(imgPath));
-//        ivAward.setImageURI(uriFromPath);
-//        ivAward.setImageBitmap(BitmapFactory.decodeFile(selectedImageUri.getPath()));
-//        Picasso.with(getContext()).load(uriFromPath).into(ivAward);
-    }
-
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    @Override
-    public void clearTexts() {
-        etDescription.setText("");
-        etName.setText("");
-        ivAward.setImageDrawable(null);
-    }
-
-    @Override
-    public void disableReturning(boolean disable) {
-        isFirstCard = disable;
-        btnPrev.setEnabled(!disable);
-    }
-
-    @Override
-    public void showTypeValue(CardType type) {
-        TypeRange.drawHeart(rlTypeValue, getActivity(), type);
-    }
-
-    @Override
-    public void setPrevCardValues(String name, String description, String pathImg) {
-        etName.setText(name);
-        etDescription.setText(description);
-
-        boolean isPathInvalid = pathImg.equals("") || pathImg == null;
-        if (!isPathInvalid) {
-            Picasso.with(getContext()).load(pathImg).into(ivAward);
         }
     }
 
@@ -211,6 +135,37 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
         presenter.onPrevClick();
     }
 
+    @Override
+    public void setPrevCardValues(String name, String description, String imgPath) {
+        this.imgPath = imgPath;
+        etName.setText(name);
+        etDescription.setText(description);
+
+        setImgFromPath(imgPath);
+    }
+
+    private void setImgFromPath(String imgPath) {
+        boolean isPathInvalid = imgPath.equals("") || imgPath == null;
+        if (!isPathInvalid) {
+            Uri uriFromPath = Uri.fromFile(new File(imgPath));
+            ivAward.setImageURI(uriFromPath);
+        }
+    }
+
+    @Override
+    public void clearTexts() {
+        etDescription.setText("");
+        etName.setText("");
+        ivAward.setImageDrawable(null);
+    }
+
+    @Override
+    public void disableReturning(boolean disable) {
+        isFirstCard = disable;
+        btnPrev.setEnabled(!disable);
+    }
+
+    @Override
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_change_name, null);
@@ -243,18 +198,55 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
             }
         });
     }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_IMG, imgPath);
+        outState.putString(STATE_TYPE, type);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null){
+            imgPath = savedInstanceState.getString(STATE_IMG);
+            setImgFromPath(imgPath);
+            type = savedInstanceState.getString(STATE_TYPE);
+            showTypeValue(CardType.valueOf(type));
+        }
+    }
+
+    @Override
+    public void showTypeValue(CardType type) {
+        this.type = type.toString();
+        TypeRange.drawHeart(rlTypeValue, getActivity(), type);
+    }
+
+    @Override
+    public void startDeckManagerActivity() {
+        Intent intent = new Intent(getActivity(), DeckManagerActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void setPresenter(CreateDeckContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
 }
-//    @Override
-//    public void showPhoto(String imgPath) {
-//        String path = Environment.getExternalStorageDirectory() + imgPath;
-//        Log.d("pathshow", path);
-//        File file = new File(path);
-//        if(file.exists()){
-//            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//            ivAward.setImageBitmap(myBitmap);
-//            makeToast(imgPath);
-//        } else {
-//            makeToast("nie wczytało obrazka");
-//        }}
+
 
 

@@ -6,13 +6,13 @@ import xyz.miroslaw.gamification_android.model.CardType;
 
 public interface CreateDeckContract {
     interface View extends BaseView <Presenter> {
-        void takePhoto();
         void openGallery();
         void showTypeValue(CardType type);
         void setPrevCardValues(String name, String description, String pathImg);
         void clearTexts();
         void disableReturning(boolean enable);
         void showDialog();
+        void startDeckManagerActivity();
     }
 
     interface Presenter extends BasePresenter{
@@ -20,7 +20,6 @@ public interface CreateDeckContract {
         void onPrevClick();
         void onImgBtnClick(String pathImg);
         void setDeckName(String deckName);
-
     }
 
 }
