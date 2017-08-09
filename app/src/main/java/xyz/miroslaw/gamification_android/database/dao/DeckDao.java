@@ -15,8 +15,8 @@ public class DeckDao implements CommonDao {
     private DatabaseHelper dbHelper;
 
     public DeckDao(Context context) {
-//        DatabaseManager dbManager = new DatabaseManager();
         dbHelper = DatabaseManager.getHelper(context);
+
     }
 
     @Override
@@ -54,6 +54,14 @@ public class DeckDao implements CommonDao {
             e.printStackTrace();
         }
     }
+    @Override
+    public void deleteById(int id) {
+        try {
+            dbHelper.getDeckDao().deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public Deck findById(int id) {
@@ -75,5 +83,16 @@ public class DeckDao implements CommonDao {
             e.printStackTrace();
         }
         return decks;
+    }
+
+    @Override
+    public int countAll(){
+        int amount = -1;
+        try {
+            amount = (int) dbHelper.getDeckDao().countOf();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return amount;
     }
 }

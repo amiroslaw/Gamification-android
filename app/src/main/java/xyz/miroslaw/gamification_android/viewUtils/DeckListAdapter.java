@@ -25,7 +25,6 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
         MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
 
@@ -52,5 +51,24 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
         return items.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+
+    //    //Remove selected selections
+//    public void removeSelection() {
+//        mSelectedItemsIds = new SparseBooleanArray();
+//        notifyDataSetChanged();
+//    }
+//    //Put or delete selected position into SparseBooleanArray
+//    public void selectView(int position, boolean value) {
+//        if (value)
+//            mSelectedItemsIds.put(position, value);
+//        else
+//            mSelectedItemsIds.delete(position);
+//        notifyDataSetChanged();
+//    }
 
 }

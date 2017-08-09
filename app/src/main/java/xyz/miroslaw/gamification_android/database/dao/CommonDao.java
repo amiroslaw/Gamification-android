@@ -10,7 +10,11 @@ public interface CommonDao {
     public void update(BaseModel baseModel);
     public void delete(BaseModel baseModel);
     public void createOrUpdate(BaseModel baseModel);
+
+    void deleteById(int id);
+
     public BaseModel findById(int id);
     public List<?> findAll();
+    public int countAll();
 
 }
