@@ -3,6 +3,7 @@ package xyz.miroslaw.gamification_android.database.dao;
 import android.content.Context;
 
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +20,7 @@ public class CardDao implements CommonDao {
     public CardDao(Context context) {
         dbHelper = DatabaseManager.getHelper(context);
     }
+
     @Override
     public void createOrUpdate(BaseModel baseModel) {
         try {
@@ -93,7 +95,7 @@ public class CardDao implements CommonDao {
     }
 
     @Override
-    public int countAll(){
+    public int countAll() {
         int amount = -1;
         try {
             amount = (int) dbHelper.getCardDao().countOf();
@@ -102,6 +104,28 @@ public class CardDao implements CommonDao {
         }
         return amount;
     }
+
+    public void saveAllCardsInDataBase(List<Card> cards) {
+        try {
+            for (Card card : cards) {
+                dbHelper.getCardDao().create(card);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAllCardsInDeck(int deckID) {
+        try {
+            DeleteBuilder<Card, Integer> deleteBuilder = dbHelper.getCardDao().deleteBuilder();
+            deleteBuilder.where().eq("deck_id", deckID);
+            deleteBuilder.delete();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 //    public int countSmallRewards(int number) throws SQLException {
 //        GenericRawResults<String[]> where = getDao(Card.class).queryRaw("SELECT COUNT(*) FROM card WHERE type = 3 AND deck_id =" + number);
 //        return Integer.parseInt(where.getFirstResult()[0]);

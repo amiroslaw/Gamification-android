@@ -7,22 +7,25 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import xyz.miroslaw.gamification_android.database.dao.CardDao;
 import xyz.miroslaw.gamification_android.database.dao.DeckDao;
+import xyz.miroslaw.gamification_android.model.Card;
 import xyz.miroslaw.gamification_android.model.Deck;
 import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 public class DeckManagerPresenter implements DeckManagerContract.Presenter {
     private final String TAG = "myDebug " + getClass().getSimpleName();
-
     private DeckManagerContract.View view;
+
     private DeckDao deckDao;
+    private CardDao cardDao;
     private List<Deck> decksList;
 
     public DeckManagerPresenter(DeckManagerContract.View view, Context context) {
         this.view = view;
         view.setPresenter(this);
         deckDao = new DeckDao(context);
-//        cardDao = new CardDao(context);
+        cardDao = new CardDao(context);
     }
 
     @Override
@@ -41,15 +44,44 @@ public class DeckManagerPresenter implements DeckManagerContract.Presenter {
         return deckDao.countAll() > 0;
     }
 
-    //TODO copy from javafx; delete card and deck
     @Override
-    public void deleteDeck(int deckID) {
-        deckDao.deleteById(deckID);
+    public void deleteDeck(int position) {
+        Deck deleted = decksList.get(position);
+        cardDao.deleteAllCardsInDeck(deleted.getId());
+        deckDao.deleteById(deleted.getId());
+        decksList.remove(position);
+        checkIfListIsEmpty();
+    }
+
+    private void checkIfListIsEmpty() {
+        if(decksList.isEmpty()) view.showNoDecksView();
     }
 
     @Override
-    public void duplicateDeck(int deckID) {
+    public void duplicateDeck(int position, String name) {
+        Deck original = deckDao.findById(decksList.get(position).getId());
+        Deck newDeck = new Deck(original);
+        newDeck.setDeckName(name);
+        decksList.add(newDeck);
 
+        ArrayList<Card> cards = copyCards(original, newDeck);
+        saveToDB(newDeck, cards);
+    }
+
+
+    private ArrayList<Card> copyCards(Deck original, Deck newDeck) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Card card : original.getCards()) {
+            Card c = new Card(card);
+            c.setDeck(newDeck);
+            cards.add(c);
+        }
+        return cards;
+    }
+
+    private void saveToDB(Deck newDeck, ArrayList<Card> cards) {
+        deckDao.create(newDeck);
+        cardDao.saveAllCardsInDataBase(cards);
     }
 
 }

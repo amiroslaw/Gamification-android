@@ -1,5 +1,6 @@
 package xyz.miroslaw.gamification_android.deckManager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.cardEditor.CardEditorActivity;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
 import xyz.miroslaw.gamification_android.viewUtils.DeckListAdapter;
@@ -48,7 +51,8 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     @BindView(R.id.txt_listCol_number)
     TextView txtNumberCol;
     ActionMode actionMode;
-    private int deckID;
+    private String deckName;
+    private int deckPosition;
 
     private DeckManagerContract.Presenter presenter;
 
@@ -83,14 +87,14 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
         }
         return view;
     }
-
     @Override
     public void showNoDecksView() {
         txtInfo.setVisibility(View.VISIBLE);
-        btnAddDeck.setVisibility(View.VISIBLE);
+//        btnAddDeck.setVisibility(View.VISIBLE);
         btnAddDeck.setText(R.string.all_addDeck);
         rlHeader.setVisibility(View.GONE);
     }
+
     private DeckListAdapter deckListAdapter;
 
     private void createRecyclerview() {
@@ -111,7 +115,8 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
             @Override
             public void onLongClick(View view, int position) {
                 //TODO presenter with position
-                deckID = adapterItems.get(position).getId();
+//                deckPosition = adapterItems.get(position).getId();
+                deckPosition = position;
                 DeckManagerFragment.this.onLongClick(view);
             }
         }));
@@ -130,27 +135,23 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     // 4. Called when the action mode is created; startActionMode() was called
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        // Inflate a menu resource providing context menu items
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.deckmanager_menu, menu);
         return true;
     }
 
-    // 5. Called when the user click share item
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_delete:
                 //TODO presenter and update data
-                presenter.deleteDeck(deckID);
-                createRecyclerview();
-                Toast.makeText(getContext(), "item_delete! "+item, Toast.LENGTH_SHORT).show();
+                presenter.deleteDeck(deckPosition);
+//                createRecyclerview();
+                deckListAdapter.remove(deckPosition);
                 mode.finish();
                 return true;
             case R.id.item_duplicate:
-                Toast.makeText(getContext(), "item_duplicate!", Toast.LENGTH_SHORT).show();
-                //TODO presenter
-                presenter.duplicateDeck(deckID);
+                showDialog();
                 mode.finish();
                 return true;
             default:
@@ -164,12 +165,42 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         return false; // Return false if nothing is done
     }
-
     // 7. Called when the user exits the action mode
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         actionMode = null;
-        deckID = -1;
+    }
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_change_name, null);
+        final EditText etName = (EditText) view.findViewById(R.id.et_change_name);
+        Button btnCancel = (Button) view.findViewById(R.id.btn_change_name_cancel);
+        Button btnAccept = (Button) view.findViewById(R.id.btn_change_name_accept);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.setCancelable(false).create();
+        dialog.show();
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String enteredName = etName.getText().toString();
+                boolean etIsNotEmpty = !enteredName.isEmpty();
+                if (etIsNotEmpty) {
+                    presenter.duplicateDeck(deckPosition, enteredName);
+                    deckListAdapter.duplicate(deckPosition, enteredName);
+                    makeToast("send " + enteredName);
+                    dialog.dismiss();
+                } else {
+                    makeToast(getString(R.string.change_name_emptyField));
+                }
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @OnClick(R.id.btn_list_add)
@@ -179,10 +210,10 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     }
 
     private void showCardEditor(int id) {
-//        makeToast(Integer.toString(id));
-//        Intent intent = new Intent(getContext(), CardEditorActivity.class);
-//        intent.putExtra(DECK_ID, id);
-//        startActivity(intent);
+        makeToast(Integer.toString(id));
+        Intent intent = new Intent(getContext(), CardEditorActivity.class);
+        intent.putExtra(DECK_ID, id);
+        startActivity(intent);
     }
 
     @Override

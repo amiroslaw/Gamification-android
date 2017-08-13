@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.miroslaw.gamification_android.R;
@@ -40,6 +42,7 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            WebView.setWebContentsDebuggingEnabled(true);
 //        }
+        Stetho.initializeWithDefaults(this);
         checkPermission();
     }
 

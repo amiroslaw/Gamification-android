@@ -19,6 +19,6 @@ public interface DeckManagerContract {
 
         void deleteDeck(int deckID);
 
-        void duplicateDeck(int deckID);
+        void duplicateDeck(int deckID, String name);
     }
 }

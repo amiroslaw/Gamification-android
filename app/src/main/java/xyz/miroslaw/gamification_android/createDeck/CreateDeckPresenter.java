@@ -14,7 +14,7 @@ import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.model.Deck;
 
 public class CreateDeckPresenter implements CreateDeckContract.Presenter {
-    private final int maxCardInDeck = 10;
+    private final int maxCardInDeck = 2;
 
     private CreateDeckContract.View view;
     private Deque<Card> cards = new ArrayDeque<>();

@@ -16,18 +16,6 @@ import xyz.miroslaw.gamification_android.R;
 public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyViewHolder> {
     private List<Item> items;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txt_deckList_name)
-        public TextView deckName;
-        @BindView(R.id.txt_list_number)
-        public TextView number;
-
-        MyViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
     public DeckListAdapter(List<Item> items) {
         this.items = items;
     }
@@ -51,24 +39,30 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
         return items.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
+    public void remove(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void duplicate(int position, String deckName) {
+        //TODO copy not reference, copy cards
+        Item copy = items.get(position);
+        copy.setName(deckName);
+        items.add(copy);
+        notifyItemInserted(items.size());
     }
 
 
-    //    //Remove selected selections
-//    public void removeSelection() {
-//        mSelectedItemsIds = new SparseBooleanArray();
-//        notifyDataSetChanged();
-//    }
-//    //Put or delete selected position into SparseBooleanArray
-//    public void selectView(int position, boolean value) {
-//        if (value)
-//            mSelectedItemsIds.put(position, value);
-//        else
-//            mSelectedItemsIds.delete(position);
-//        notifyDataSetChanged();
-//    }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.txt_deckList_name)
+        public TextView deckName;
+        @BindView(R.id.txt_list_number)
+        public TextView number;
+
+        MyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 
 }
