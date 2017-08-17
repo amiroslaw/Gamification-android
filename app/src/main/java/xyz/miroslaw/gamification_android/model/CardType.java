@@ -6,6 +6,8 @@ public enum CardType {
     MEDIUM,
     SMALL,
     EMPTY;
+
+
 }
 
 

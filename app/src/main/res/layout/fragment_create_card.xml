@@ -7,7 +7,7 @@
     android:layout_margin="5dp"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="xyz.miroslaw.gamification_android.createDeck.CreateCardFragment">
+    tools:context="xyz.miroslaw.gamification_android.createDeck.CreateDeckFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -35,6 +35,13 @@
             android:padding="20dp"
             android:text="@string/createDeck_type" />
 
+        <Spinner
+            android:id="@+id/spinner_createCard_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_createCard_next"
+            android:layout_toEndOf="@id/txt_createCard_type" />
+
         <RelativeLayout
             android:id="@+id/rl_createCard_typeValue"
             android:layout_width="match_parent"
@@ -52,6 +59,7 @@
             android:layout_below="@id/btn_createCard_next"
             android:layout_alignParentEnd="true"
             android:visibility="visible" />
+
     </RelativeLayout>
 
     <TextView

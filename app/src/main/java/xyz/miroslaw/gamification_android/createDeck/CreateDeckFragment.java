@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -32,7 +33,7 @@ import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 import static android.app.Activity.RESULT_OK;
 
 
-public class CreateCardFragment extends Fragment implements CreateDeckContract.View {
+public class CreateDeckFragment extends Fragment implements CreateDeckContract.View {
 
     private static final String STATE_IMG = "imagePath";
     private static final String STATE_TYPE = "cardType";
@@ -48,17 +49,19 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
     RelativeLayout rlTypeValue;
     @BindView(R.id.btn_createCard_previous)
     Button btnPrev;
+    @BindView(R.id.spinner_createCard_type)
+    Spinner spinnerType;
     private CreateDeckContract.Presenter presenter;
     private boolean isFirstCard = true;
     private String imgPath ="";
     private String type = "EMPTY";
 
-    public CreateCardFragment() {
+    public CreateDeckFragment() {
         // Required empty public constructor
     }
 
-    public static CreateCardFragment newInstance() {
-        return new CreateCardFragment();
+    public static CreateDeckFragment newInstance() {
+        return new CreateDeckFragment();
     }
 
     @Override
@@ -77,6 +80,7 @@ public class CreateCardFragment extends Fragment implements CreateDeckContract.V
         View view = inflater.inflate(R.layout.fragment_create_card, container, false);
         setSwipe(view);
         ButterKnife.bind(this, view);
+        spinnerType.setVisibility(View.GONE);
         TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.LARGE);
         return view;
     }

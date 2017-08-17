@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
-import xyz.miroslaw.gamification_android.createDeck.CreateCardFragment;
 import xyz.miroslaw.gamification_android.deckManager.DeckManagerFragment;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
 import xyz.miroslaw.gamification_android.viewUtils.Item;
@@ -34,7 +33,7 @@ import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 import static android.os.Build.ID;
 
 
-public class CardEditorFragment extends Fragment implements CardEditorContract.View, View.OnLongClickListener, ActionMode.Callback {
+public class CardEditorFragment extends Fragment implements CardEditorContract.CardListView, View.OnLongClickListener, ActionMode.Callback {
 
     private CardEditorContract.Presenter presenter;
     private static final String DECK_ID = ID;
@@ -71,7 +70,7 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (presenter == null) {
-            presenter = new CardEditorPresenter(this, getContext());
+            presenter = new CardEditorPresenter((CardEditorContract.CardListView) this, getContext());
         }
         View view = inflater.inflate(R.layout.fragment_card_editor, container, false);
         ButterKnife.bind(this, view);
@@ -103,7 +102,8 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.V
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext().getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                showCardEditor(adapterItems.get(position).getId());
+                passIdToFragment(adapterItems.get(position).getId());
+                showCreateCardFragment();
             }
 
             @Override
@@ -116,8 +116,6 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.V
         }));
     }
 
-    private void showCardEditor(int id) {
-    }
 
     @Override
     public boolean onLongClick(View view) {
@@ -169,24 +167,25 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.V
         actionMode = null;
     }
 
-
+    Fragment createCardFragment = new CreateCardFragment();
     @OnClick(R.id.btn_list_add)
     void onAddCard(){
-        Fragment newFragment = new CreateCardFragment();
+        showCreateCardFragment();
+    }
 
-        View view = newFragment.inflate(R.layout.fragment_create_card, container, false);
+    private void passIdToFragment(int cardID) {
+        Bundle args = new Bundle();
+        args.putInt("ID", cardID );
+        createCardFragment.setArguments(args);
+    }
 
+    private void showCreateCardFragment() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack if needed
-        transaction.replace(R.id.fragment_cardEditor, newFragment);
+        transaction.replace(R.id.fragment_cardEditor, createCardFragment);
         transaction.addToBackStack(null);
-
-
-// Commit the transaction
         transaction.commit();
     }
+
     @Override
     public void setPresenter(CardEditorContract.Presenter presenter) {
         this.presenter = presenter;

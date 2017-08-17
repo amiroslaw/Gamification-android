@@ -12,11 +12,17 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 public class CardEditorPresenter implements CardEditorContract.Presenter{
 
-    private CardEditorContract.View view;
+    private CardEditorContract.CardListView cardListView;
+    private CardEditorContract.CreateView createView;
     private CardDao cardDao;
     private List<Card> cardList;
-    public CardEditorPresenter(CardEditorContract.View view, Context context) {
-        this.view = view;
+    public CardEditorPresenter(CardEditorContract.CardListView view, Context context) {
+        this.cardListView = view;
+        view.setPresenter(this);
+        cardDao = new CardDao(context);
+    }
+    public CardEditorPresenter(CardEditorContract.CreateView view, Context context) {
+        this.createView = view;
         view.setPresenter(this);
         cardDao = new CardDao(context);
     }
@@ -44,5 +50,16 @@ public class CardEditorPresenter implements CardEditorContract.Presenter{
         Card newCard = new Card(original);
         cardList.add(newCard);
         cardDao.create(newCard);
+    }
+
+    @Override
+    public void onSaveCard(String name, String string) {
+
+    }
+
+    @Override
+    public Card getCard(int cardID) {
+        return cardDao.findById(cardID);
+
     }
 }

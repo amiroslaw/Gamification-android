@@ -12,7 +12,7 @@ public class CreateDeckActivity extends AppCompatActivity {
     private final String DEBUGTAG = "myDebug "+getClass().getSimpleName();
 
     private FragmentManager manager;
-    CreateCardFragment fragment;
+    CreateDeckFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +20,9 @@ public class CreateDeckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_deck);
 
         manager = this.getSupportFragmentManager();
-        fragment =  (CreateCardFragment) manager.findFragmentById(R.id.fragment_createCard);
+        fragment =  (CreateDeckFragment) manager.findFragmentById(R.id.fragment_createCard);
         if (fragment == null) {
-            fragment = CreateCardFragment.newInstance();
+            fragment = CreateDeckFragment.newInstance();
         }
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_createCard, fragment, fragment.getTag());
