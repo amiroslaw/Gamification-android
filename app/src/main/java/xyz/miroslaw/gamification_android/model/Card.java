@@ -4,14 +4,13 @@ package xyz.miroslaw.gamification_android.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-//@DatabaseTable(daoClass = CardDao.class)
 @DatabaseTable
 public class Card implements BaseModel {
 
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false)
-    private CardType type; // typ karty 1- nagroda 1, 2- nagroda 2, 4 nic
+    private CardType type;
     @DatabaseField(canBeNull = false)
     private String title;
     @DatabaseField
@@ -35,12 +34,12 @@ public class Card implements BaseModel {
     }
 
     public Card(Card card) {
-//        this.number = number;
-        this.deck = null;
-        this.type = card.type;
+//        this.deck = null;
         this.title = card.title;
         this.description = card.description;
+        this.type = card.type;
         this.image = card.image;
+        this.deck = card.getDeck();
     }
 
     public int getId() {

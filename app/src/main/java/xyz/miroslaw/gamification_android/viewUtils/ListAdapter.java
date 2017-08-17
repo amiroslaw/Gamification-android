@@ -13,10 +13,10 @@ import butterknife.ButterKnife;
 import xyz.miroslaw.gamification_android.R;
 
 
-public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
     private List<Item> items;
 
-    public DeckListAdapter(List<Item> items) {
+    public ListAdapter(List<Item> items) {
         this.items = items;
     }
 
@@ -31,7 +31,7 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Item item = items.get(position);
         holder.deckName.setText(item.getName());
-        holder.number.setText(Integer.toString(item.getNumber()));
+        holder.number.setText(item.getNumber());
     }
 
     @Override
@@ -44,10 +44,19 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
         notifyItemRemoved(position);
     }
 
+    public void duplicate(int position) {
+        Item copy = items.get(position);
+        addItems(copy);
+    }
+
     public void duplicate(int position, String deckName) {
         //TODO copy not reference, copy cards
         Item copy = items.get(position);
         copy.setName(deckName);
+        addItems(copy);
+    }
+
+    private void addItems(Item copy) {
         items.add(copy);
         notifyItemInserted(items.size());
     }

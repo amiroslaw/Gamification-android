@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -87,7 +88,17 @@ public class CardDao implements CommonDao {
         }
         return cards;
     }
-
+    public List<Card> findAllFromDeck(int deckID) {
+        List<Card> cards = null;
+        try {
+            QueryBuilder<Card, Integer> queryBuilder = dbHelper.getCardDao().queryBuilder();
+            queryBuilder.where().eq("deck_id", deckID);
+            cards = queryBuilder.query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cards;
+    }
     public int countMediumRewards(int id) throws SQLException {
         GenericRawResults<String[]> where = dbHelper.getCardDao().queryRaw("SELECT COUNT(*) FROM card WHERE type = 2 AND deck_id =" + id);
         int result = Integer.parseInt(where.getFirstResult()[0]);

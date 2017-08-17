@@ -34,7 +34,7 @@ public class DeckManagerPresenter implements DeckManagerContract.Presenter {
         Log.d(TAG, "getAdapterItems: size " + decksList.size());
         List<Item> items = new ArrayList<>();
         for (Deck deck : decksList) {
-            items.add(new Item(deck.getId(), deck.getDeckName(), deck.getCards().size()));
+            items.add(new Item(deck.getId(), deck.getDeckName(), Integer.toString(deck.getCards().size())));
         }
         return items;
     }

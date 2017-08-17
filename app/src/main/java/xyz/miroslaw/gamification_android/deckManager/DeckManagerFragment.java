@@ -29,7 +29,7 @@ import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.cardEditor.CardEditorActivity;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
-import xyz.miroslaw.gamification_android.viewUtils.DeckListAdapter;
+import xyz.miroslaw.gamification_android.viewUtils.ListAdapter;
 import xyz.miroslaw.gamification_android.viewUtils.Item;
 import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 
@@ -37,7 +37,7 @@ import static android.os.Build.ID;
 
 
 public class DeckManagerFragment extends Fragment implements DeckManagerContract.View, View.OnLongClickListener, ActionMode.Callback {
-    private static final String DECK_ID = ID;
+    public static final String DECK_ID = ID;
     private final String TAG = "myDebug " + getClass().getSimpleName();
 
     @BindView(R.id.rv_deckList)
@@ -51,7 +51,7 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     @BindView(R.id.txt_listCol_number)
     TextView txtNumberCol;
     ActionMode actionMode;
-    private String deckName;
+    private ListAdapter listAdapter;
     private int deckPosition;
 
     private DeckManagerContract.Presenter presenter;
@@ -78,8 +78,9 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
         }
         View view = inflater.inflate(R.layout.fragment_deck_manager, container, false);
         ButterKnife.bind(this, view);
-        txtNumberCol.setText(getResources().getString(R.string.deckList_number));
 
+        txtNumberCol.setText(getResources().getString(R.string.deckList_number));
+        btnAddDeck.setText(R.string.all_addDeck);
         if (presenter.isAnyDeck()) {
             createRecyclerview();
         } else {
@@ -91,25 +92,22 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     public void showNoDecksView() {
         txtInfo.setVisibility(View.VISIBLE);
 //        btnAddDeck.setVisibility(View.VISIBLE);
-        btnAddDeck.setText(R.string.all_addDeck);
         rlHeader.setVisibility(View.GONE);
     }
 
-    private DeckListAdapter deckListAdapter;
 
     private void createRecyclerview() {
 
         final List<Item> adapterItems = presenter.getAdapterItems();
-        deckListAdapter = new DeckListAdapter(adapterItems);
+        listAdapter = new ListAdapter(adapterItems);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(deckListAdapter);
+        recyclerView.setAdapter(listAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext().getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 showCardEditor(adapterItems.get(position).getId());
-                makeToast(Integer.toString(position));
             }
 
             @Override
@@ -147,7 +145,7 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
                 //TODO presenter and update data
                 presenter.deleteDeck(deckPosition);
 //                createRecyclerview();
-                deckListAdapter.remove(deckPosition);
+                listAdapter.remove(deckPosition);
                 mode.finish();
                 return true;
             case R.id.item_duplicate:
@@ -187,7 +185,7 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
                 boolean etIsNotEmpty = !enteredName.isEmpty();
                 if (etIsNotEmpty) {
                     presenter.duplicateDeck(deckPosition, enteredName);
-                    deckListAdapter.duplicate(deckPosition, enteredName);
+                    listAdapter.duplicate(deckPosition, enteredName);
                     makeToast("send " + enteredName);
                     dialog.dismiss();
                 } else {

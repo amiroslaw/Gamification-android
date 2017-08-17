@@ -6,15 +6,15 @@ import xyz.miroslaw.gamification_android.model.BaseModel;
 
 public interface CommonDao {
 
-    public void create(BaseModel baseModel);
-    public void update(BaseModel baseModel);
-    public void delete(BaseModel baseModel);
-    public void createOrUpdate(BaseModel baseModel);
+    void create(BaseModel baseModel);
+    void update(BaseModel baseModel);
+    void delete(BaseModel baseModel);
+    void createOrUpdate(BaseModel baseModel);
 
     void deleteById(int id);
 
-    public BaseModel findById(int id);
-    public List<?> findAll();
-    public int countAll();
+    BaseModel findById(int id);
+    List<?> findAll();
+    int countAll();
 
 }

@@ -24,6 +24,8 @@
     <string name="all_addDeck">Add deck</string>
     <string name="all_name">Name</string>
     <string name="deckList_number">No. awards</string>
+    <string name="cardList_type">type</string>
+    <string name="cardEditor_addCard">Add card</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Deck Manager</item>

@@ -1,8 +1,24 @@
 package xyz.miroslaw.gamification_android.cardEditor;
 
-/**
- * Created by miro on 13.06.17.
- */
+
+import java.util.List;
+
+import xyz.miroslaw.gamification_android.BasePresenter;
+import xyz.miroslaw.gamification_android.BaseView;
+import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 public interface CardEditorContract {
+
+    interface View extends BaseView<Presenter> {
+
+    }
+
+    interface Presenter extends BasePresenter {
+
+        List<Item> getAdapterItems(int deckID);
+
+        void deleteCard(int cardPosition);
+
+        void duplicateCard(int cardPosition);
+    }
 }
