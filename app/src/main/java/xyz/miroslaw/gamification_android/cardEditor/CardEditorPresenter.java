@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.miroslaw.gamification_android.database.dao.CardDao;
+import xyz.miroslaw.gamification_android.database.dao.DeckDao;
 import xyz.miroslaw.gamification_android.model.Card;
+import xyz.miroslaw.gamification_android.model.Deck;
 import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 public class CardEditorPresenter implements CardEditorContract.Presenter{
@@ -16,6 +18,8 @@ public class CardEditorPresenter implements CardEditorContract.Presenter{
     private CardEditorContract.CreateView createView;
     private CardDao cardDao;
     private List<Card> cardList;
+    private DeckDao deckDao;
+
     public CardEditorPresenter(CardEditorContract.CardListView view, Context context) {
         this.cardListView = view;
         view.setPresenter(this);
@@ -25,6 +29,7 @@ public class CardEditorPresenter implements CardEditorContract.Presenter{
         this.createView = view;
         view.setPresenter(this);
         cardDao = new CardDao(context);
+        deckDao = new DeckDao(context);
     }
 
     @Override
@@ -53,8 +58,10 @@ public class CardEditorPresenter implements CardEditorContract.Presenter{
     }
 
     @Override
-    public void onSaveCard(String name, String string) {
-
+    public void onSaveCard(Card card, int deckID) {
+        Deck deck = deckDao.findById(deckID);
+        card.setDeck(deck);
+        cardDao.create(card);
     }
 
     @Override

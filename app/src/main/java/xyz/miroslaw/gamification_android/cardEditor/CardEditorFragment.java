@@ -30,13 +30,12 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 import xyz.miroslaw.gamification_android.viewUtils.ListAdapter;
 import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 
-import static android.os.Build.ID;
-
 
 public class CardEditorFragment extends Fragment implements CardEditorContract.CardListView, View.OnLongClickListener, ActionMode.Callback {
 
     private CardEditorContract.Presenter presenter;
-    private static final String DECK_ID = ID;
+    static final String DECK_ID = "DECK_ID";
+    static final String CARD_ID = "CARD_ID";
     private final String TAG = "myDebug " + getClass().getSimpleName();
 
     @BindView(R.id.rv_cardsList)
@@ -102,7 +101,7 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext().getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                passIdToFragment(adapterItems.get(position).getId());
+                passIdToFragment(CARD_ID, adapterItems.get(position).getId());
                 showCreateCardFragment();
             }
 
@@ -170,12 +169,13 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
     Fragment createCardFragment = new CreateCardFragment();
     @OnClick(R.id.btn_list_add)
     void onAddCard(){
+        passIdToFragment(DECK_ID, deckID);
         showCreateCardFragment();
     }
 
-    private void passIdToFragment(int cardID) {
+    private void passIdToFragment(String key, int ID) {
         Bundle args = new Bundle();
-        args.putInt("ID", cardID );
+        args.putInt(key, ID );
         createCardFragment.setArguments(args);
     }
 

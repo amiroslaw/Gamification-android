@@ -26,7 +26,7 @@ public interface CardEditorContract {
 
         void duplicateCard(int cardPosition);
 
-        void onSaveCard(String name, String string);
+        void onSaveCard(Card card, int deckID);
 
         Card getCard(int cardID);
     }

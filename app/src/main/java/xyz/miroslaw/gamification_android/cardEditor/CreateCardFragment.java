@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -56,6 +57,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     private boolean isFirstCard = true;
     private String imgPath = "";
     private String type = "EMPTY";
+    private int deckID;
 
     public CreateCardFragment() {
         // Required empty public constructor
@@ -98,8 +100,9 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
 
     private void getCard() {
         Bundle args = getArguments();
-        if (args != null) {
-            int cardID = getArguments().getInt("ID");
+        deckID = getArguments().getInt(CardEditorFragment.DECK_ID);
+        if (args.containsKey(CardEditorFragment.CARD_ID)) {
+            int cardID = getArguments().getInt(CardEditorFragment.CARD_ID);
             Card card = presenter.getCard(cardID);
             setForm(card);
         }
@@ -133,13 +136,25 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
             etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
         } else {
             etName.setBackgroundColor(000);
-            presenter.onSaveCard(name, etDescription.getText().toString());
+            Card card = buildCard(name);
+            presenter.onSaveCard(card, deckID);
         }
+    }
+
+    @NonNull
+    private Card buildCard(String name) {
+        Card card = new Card();
+        card.setTitle(name);
+        card.setDescription(etDescription.getText().toString());
+        card.setImage(imgPath);
+        card.setType(CardType.valueOf(type));
+        return card;
     }
 
     @OnClick(R.id.btn_createCard_previous)
     public void onCancel() {
         //TODO back button or replace fragment
+        getFragmentManager().popBackStack();
     }
 
 
@@ -165,6 +180,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
             imgPath = savedInstanceState.getString(STATE_IMG);
             setImgFromPath(imgPath);
             type = savedInstanceState.getString(STATE_TYPE);
+            setSpinnerSelection(CardType.valueOf(type));
         }
     }
 
@@ -207,6 +223,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedItem = (String) parent.getItemAtPosition(position);
+        type = selectedItem.toUpperCase();
         makeToast(selectedItem);
     }
 
