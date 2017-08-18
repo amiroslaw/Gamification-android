@@ -149,10 +149,11 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
     }
 
     private void setImgFromPath(String imgPath) {
-        boolean isPathInvalid = imgPath.equals("") || imgPath == null;
-        if (!isPathInvalid) {
-            Uri uriFromPath = Uri.fromFile(new File(imgPath));
-            ivAward.setImageURI(uriFromPath);
+        if(imgPath != null){
+            if (!imgPath.isEmpty()) {
+                Uri uriFromPath = Uri.fromFile(new File(imgPath));
+                ivAward.setImageURI(uriFromPath);
+            }
         }
     }
 

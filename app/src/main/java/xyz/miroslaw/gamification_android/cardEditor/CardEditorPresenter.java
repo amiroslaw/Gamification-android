@@ -61,7 +61,7 @@ public class CardEditorPresenter implements CardEditorContract.Presenter{
     public void onSaveCard(Card card, int deckID) {
         Deck deck = deckDao.findById(deckID);
         card.setDeck(deck);
-        cardDao.create(card);
+        cardDao.createOrUpdate(card);
     }
 
     @Override
