@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.io.File;
+
 public class Tools {
+
     public static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
@@ -20,5 +23,14 @@ public class Tools {
                 cursor.close();
             }
         }
+    }
+    public static Uri getUriFromPath(String imgPath) {
+        Uri uriFromPath = null;
+        if(imgPath != null){
+            if (!imgPath.isEmpty()) {
+                uriFromPath = Uri.fromFile(new File(imgPath));
+            }
+        }
+        return uriFromPath;
     }
 }

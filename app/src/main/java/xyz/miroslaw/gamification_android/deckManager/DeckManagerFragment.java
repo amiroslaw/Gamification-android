@@ -112,8 +112,6 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
 
             @Override
             public void onLongClick(View view, int position) {
-                //TODO presenter with position
-//                deckPosition = adapterItems.get(position).getId();
                 deckPosition = position;
                 DeckManagerFragment.this.onLongClick(view);
             }
@@ -142,9 +140,7 @@ public class DeckManagerFragment extends Fragment implements DeckManagerContract
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_delete:
-                //TODO presenter and update data
                 presenter.deleteDeck(deckPosition);
-//                createRecyclerview();
                 listAdapter.remove(deckPosition);
                 mode.finish();
                 return true;

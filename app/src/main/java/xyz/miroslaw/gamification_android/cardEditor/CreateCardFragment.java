@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,11 +33,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateCardFragment extends Fragment implements CardEditorContract.CreateView, AdapterView.OnItemSelectedListener {
 
-    private static final String STATE_IMG = "imagePath";
-    private static final String STATE_TYPE = "cardType";
-    private static final String STATE_STARTED = "Started";
-    private final String TAG = "myDebug " + getClass().getSimpleName();
+    private static final String STATE_IMG = "imagePath", STATE_TYPE = "cardType", STATE_STARTED = "Started";
     private static final int SELECT_FILE = 0;
+    private final String TAG = "myDebug " + getClass().getSimpleName();
     @BindView(R.id.iv_createCard_award)
     ImageView ivAward;
     @BindView(R.id.et_createCard_name)
@@ -55,17 +50,11 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     Button btnSave;
     @BindView(R.id.spinner_createCard_type)
     Spinner spinnerType;
-    boolean isFormEmpty = true;
+    private boolean isFormEmpty = true;
     private CardEditorContract.Presenter presenter;
-//    private String imgPath = "";
-//    private String type = "EMPTY";
     private Card card = new Card();
     private int deckID;
-
     private Communicator comm;
-    public void setCommunicator(Communicator comm){
-        this.comm = comm;
-    }
 
     public CreateCardFragment() {
         // Required empty public constructor
@@ -89,17 +78,17 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
         }
         View view = inflater.inflate(R.layout.fragment_create_card, container, false);
         ButterKnife.bind(this, view);
+        setupViews();
+        setupSpinner();
+        getCard();
+        return view;
+    }
 
-        Log.d(TAG, "onCreateView: deckid " + savedInstanceState);
-
+    private void setupViews() {
         rlTypeValue.setVisibility(View.GONE);
         btnCancel.setText(R.string.all_cancel);
         btnCancel.setEnabled(true);
         btnSave.setText(R.string.all_save);
-        setupSpinner();
-        if(savedInstanceState == null)
-        getCard();
-        return view;
     }
 
     private void setupSpinner() {
@@ -122,7 +111,6 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
         }
 
     }
-
 
     @OnClick(R.id.btn_createCard_setImg)
     public void openGallery() {
@@ -164,15 +152,6 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     }
 
 
-    private void setImgFromPath(String imgPath) {
-        if(imgPath != null){
-            if (!imgPath.isEmpty()) {
-                Uri uriFromPath = Uri.fromFile(new File(imgPath));
-                ivAward.setImageURI(uriFromPath);
-            }
-        }
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -185,32 +164,18 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            setImgFromPath(savedInstanceState.getString(STATE_IMG));
+            String imgPath = savedInstanceState.getString(STATE_IMG);
+            ivAward.setImageURI(Tools.getUriFromPath(imgPath));
             String type = savedInstanceState.getString(STATE_TYPE);
             setSpinnerSelection(CardType.valueOf(type));
             isFormEmpty = savedInstanceState.getBoolean(STATE_STARTED);
         }
     }
 
-    @Override
-    public void setPresenter(CardEditorContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public void makeToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    void setForm() {
+    private void setForm() {
         etName.setText(card.getTitle());
         etDescription.setText(card.getDescription());
-        setImgFromPath(card.getImage());
+        ivAward.setImageURI(Tools.getUriFromPath(card.getImage()));
         setSpinnerSelection(card.getType());
     }
 
@@ -237,6 +202,25 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setCommunicator(Communicator comm){
+        this.comm = comm;
+    }
+
+    @Override
+    public void setPresenter(CardEditorContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }
 

@@ -38,10 +38,8 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
             presenter = new MenuPresenter(this);
         }
         createListView();
-        //TODO: chrome inspect
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            WebView.setWebContentsDebuggingEnabled(true);
-//        }
+
+        //chrome inspect
         Stetho.initializeWithDefaults(this);
         checkPermission();
     }

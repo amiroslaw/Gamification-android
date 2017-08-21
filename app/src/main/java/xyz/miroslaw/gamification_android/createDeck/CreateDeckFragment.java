@@ -18,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,10 +33,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateDeckFragment extends Fragment implements CreateDeckContract.View {
 
-    private static final String STATE_IMG = "imagePath";
-    private static final String STATE_TYPE = "cardType";
-    private final String TAG = "myDebug " + getClass().getSimpleName();
+    private static final String STATE_IMG = "imagePath", STATE_TYPE = "cardType";
     private static final int SELECT_FILE = 0;
+    private final String TAG = "myDebug " + getClass().getSimpleName();
     @BindView(R.id.iv_createCard_award)
     ImageView ivAward;
     @BindView(R.id.et_createCard_name)
@@ -144,18 +141,10 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
         this.imgPath = imgPath;
         etName.setText(name);
         etDescription.setText(description);
-
-        setImgFromPath(imgPath);
+        ivAward.setImageURI(Tools.getUriFromPath(imgPath));
     }
 
-    private void setImgFromPath(String imgPath) {
-        if(imgPath != null){
-            if (!imgPath.isEmpty()) {
-                Uri uriFromPath = Uri.fromFile(new File(imgPath));
-                ivAward.setImageURI(uriFromPath);
-            }
-        }
-    }
+
 
     @Override
     public void clearTexts() {
@@ -218,7 +207,7 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null){
             imgPath = savedInstanceState.getString(STATE_IMG);
-            setImgFromPath(imgPath);
+            ivAward.setImageURI(Tools.getUriFromPath(imgPath));
             type = savedInstanceState.getString(STATE_TYPE);
             showTypeValue(CardType.valueOf(type));
         }

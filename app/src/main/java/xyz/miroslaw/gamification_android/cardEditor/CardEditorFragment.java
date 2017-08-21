@@ -2,7 +2,6 @@ package xyz.miroslaw.gamification_android.cardEditor;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,8 +34,7 @@ import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 public class CardEditorFragment extends Fragment implements CardEditorContract.CardListView, View.OnLongClickListener, ActionMode.Callback {
 
     private CardEditorContract.Presenter presenter;
-    static final String DECK_ID = "DECK_ID";
-    static final String CARD_ID = "CARD_ID";
+    static final String DECK_ID = "DECK_ID", CARD_ID = "CARD_ID";
     private final String TAG = "myDebug " + getClass().getSimpleName();
 
     @BindView(R.id.rv_cardsList)
@@ -51,11 +49,7 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
     ActionMode actionMode;
     private ListAdapter listAdapter;
     private int cardPosition;
-
     private Communicator comm;
-    public void setCommunicator(Communicator comm){
-        this.comm = comm;
-    }
 
     public CardEditorFragment() {
         // Required empty public constructor
@@ -107,20 +101,15 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
             @Override
             public void onClick(View view, int position) {
                 comm.changeFragment(createBundle(CARD_ID, adapterItems.get(position).getId()));
-//                passIdToFragment(CARD_ID, adapterItems.get(position).getId());
-//                showCreateCardFragment();
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                //TODO presenter with position
-//                deckPosition = adapterItems.get(position).getId();
                 cardPosition = position;
                 CardEditorFragment.this.onLongClick(view);
             }
         }));
     }
-
 
     @Override
     public boolean onLongClick(View view) {
@@ -144,9 +133,7 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_delete:
-                //TODO presenter and update data
                 presenter.deleteCard(cardPosition);
-//                createRecyclerview();
                 listAdapter.remove(cardPosition);
                 mode.finish();
                 return true;
@@ -172,12 +159,9 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         actionMode = null;
     }
 
-    Fragment createCardFragment = new CreateCardFragment();
     @OnClick(R.id.btn_list_add)
     void onAddCard(){
-
         comm.changeFragment(createBundle(DECK_ID, deckID));
-//        showCreateCardFragment();
     }
 
     private Bundle createBundle(String key, int ID) {
@@ -186,19 +170,8 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         return args;
     }
 
-    private void passIdToFragment(String key, int ID) {
-        Bundle args = new Bundle();
-        args.putInt(key, ID );
-        createCardFragment.setArguments(args);
-    }
-
-    private void showCreateCardFragment() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_cardEditor, createCardFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-        // or
-        //Fragment oldFragment = fragmentManager.findFragmentByTag(
+    public void setCommunicator(Communicator comm){
+        this.comm = comm;
     }
 
     @Override
