@@ -26,6 +26,7 @@ import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.deckManager.DeckManagerFragment;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
+import xyz.miroslaw.gamification_android.viewUtils.Communicator;
 import xyz.miroslaw.gamification_android.viewUtils.Item;
 import xyz.miroslaw.gamification_android.viewUtils.ListAdapter;
 import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
@@ -51,6 +52,11 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
     private ListAdapter listAdapter;
     private int cardPosition;
 
+    private Communicator comm;
+    public void setCommunicator(Communicator comm){
+        this.comm = comm;
+    }
+
     public CardEditorFragment() {
         // Required empty public constructor
     }
@@ -75,7 +81,6 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         ButterKnife.bind(this, view);
 
         deckID = getDeckIdFromBundle();
-        makeToast(String.valueOf(deckID));
         txtNumberCol.setText(getResources().getString(R.string.cardList_type));
         btnAddDeck.setText(R.string.cardEditor_addCard);
         createRecyclerview();
@@ -101,8 +106,9 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext().getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                passIdToFragment(CARD_ID, adapterItems.get(position).getId());
-                showCreateCardFragment();
+                comm.changeFragment(createBundle(CARD_ID, adapterItems.get(position).getId()));
+//                passIdToFragment(CARD_ID, adapterItems.get(position).getId());
+//                showCreateCardFragment();
             }
 
             @Override
@@ -169,8 +175,15 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
     Fragment createCardFragment = new CreateCardFragment();
     @OnClick(R.id.btn_list_add)
     void onAddCard(){
-        passIdToFragment(DECK_ID, deckID);
-        showCreateCardFragment();
+
+        comm.changeFragment(createBundle(DECK_ID, deckID));
+//        showCreateCardFragment();
+    }
+
+    private Bundle createBundle(String key, int ID) {
+        Bundle args = new Bundle();
+        args.putInt(key, ID );
+        return args;
     }
 
     private void passIdToFragment(String key, int ID) {
@@ -184,6 +197,8 @@ public class CardEditorFragment extends Fragment implements CardEditorContract.C
         transaction.replace(R.id.fragment_cardEditor, createCardFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+        // or
+        //Fragment oldFragment = fragmentManager.findFragmentByTag(
     }
 
     @Override

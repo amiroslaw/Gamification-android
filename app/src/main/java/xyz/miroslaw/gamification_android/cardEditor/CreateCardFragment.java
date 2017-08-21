@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.model.Card;
 import xyz.miroslaw.gamification_android.model.CardType;
+import xyz.miroslaw.gamification_android.viewUtils.Communicator;
 import xyz.miroslaw.gamification_android.viewUtils.Tools;
 
 import static android.app.Activity.RESULT_OK;
@@ -36,6 +38,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
 
     private static final String STATE_IMG = "imagePath";
     private static final String STATE_TYPE = "cardType";
+    private static final String STATE_STARTED = "Started";
     private final String TAG = "myDebug " + getClass().getSimpleName();
     private static final int SELECT_FILE = 0;
     @BindView(R.id.iv_createCard_award)
@@ -52,11 +55,17 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     Button btnSave;
     @BindView(R.id.spinner_createCard_type)
     Spinner spinnerType;
+    boolean isFormEmpty = true;
     private CardEditorContract.Presenter presenter;
 //    private String imgPath = "";
 //    private String type = "EMPTY";
     private Card card = new Card();
     private int deckID;
+
+    private Communicator comm;
+    public void setCommunicator(Communicator comm){
+        this.comm = comm;
+    }
 
     public CreateCardFragment() {
         // Required empty public constructor
@@ -81,10 +90,14 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
         View view = inflater.inflate(R.layout.fragment_create_card, container, false);
         ButterKnife.bind(this, view);
 
+        Log.d(TAG, "onCreateView: deckid " + savedInstanceState);
+
         rlTypeValue.setVisibility(View.GONE);
         btnCancel.setText(R.string.all_cancel);
+        btnCancel.setEnabled(true);
         btnSave.setText(R.string.all_save);
         setupSpinner();
+        if(savedInstanceState == null)
         getCard();
         return view;
     }
@@ -99,13 +112,15 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
 
     private void getCard() {
         Bundle args = getArguments();
-        deckID = getArguments().getInt(CardEditorFragment.DECK_ID);
+        deckID = args.getInt(CardEditorFragment.DECK_ID);
         if (args.containsKey(CardEditorFragment.CARD_ID)) {
             int cardID = getArguments().getInt(CardEditorFragment.CARD_ID);
             card = presenter.getCard(cardID);
             deckID = card.getDeck().getId();
+            isFormEmpty = false;
             setForm();
         }
+
     }
 
 
@@ -139,13 +154,13 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
             card.setTitle(name);
             card.setDescription(etDescription.getText().toString());
             presenter.onSaveCard(card, deckID);
+            comm.changeFragment(null);
         }
     }
 
     @OnClick(R.id.btn_createCard_previous)
     public void onCancel() {
-        //TODO back button or replace fragment
-        getFragmentManager().popBackStack();
+        comm.changeFragment(null);
     }
 
 
@@ -163,6 +178,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
         super.onSaveInstanceState(outState);
         outState.putString(STATE_IMG, card.getImage());
         outState.putString(STATE_TYPE, card.getType().toString());
+        outState.putBoolean(STATE_STARTED, isFormEmpty);
     }
 
     @Override
@@ -172,6 +188,7 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
             setImgFromPath(savedInstanceState.getString(STATE_IMG));
             String type = savedInstanceState.getString(STATE_TYPE);
             setSpinnerSelection(CardType.valueOf(type));
+            isFormEmpty = savedInstanceState.getBoolean(STATE_STARTED);
         }
     }
 
@@ -215,7 +232,6 @@ public class CreateCardFragment extends Fragment implements CardEditorContract.C
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedItem = (String) parent.getItemAtPosition(position);
         card.setType(CardType.valueOf(selectedItem.toUpperCase()));
-        makeToast(selectedItem);
     }
 
     @Override
