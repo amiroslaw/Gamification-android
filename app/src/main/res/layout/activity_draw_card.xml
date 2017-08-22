@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context="xyz.miroslaw.gamification_android.drawCard.DrawCardActivity">
 
+    <FrameLayout
+        android:id="@+id/fl_drawCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </android.support.constraint.ConstraintLayout>

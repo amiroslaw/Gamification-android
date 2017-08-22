@@ -16,7 +16,7 @@
     <string name="deckManagerMenu_delete">Click to delete decks!</string>
     <string name="deckManagerMenu_duplicate">Click to duplicate decks</string>
     <string name="change_name_txt">Change name of deck</string>
-    <string name="all_cancel">Cancel</string>
+    <string name="all_cancel">Exit</string>
     <string name="all_ok">OK</string>
     <string name="change_name_emptyField">Please fill field</string>
     <string name="all_award">award</string>
