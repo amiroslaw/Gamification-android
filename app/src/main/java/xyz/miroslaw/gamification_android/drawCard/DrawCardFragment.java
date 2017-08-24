@@ -5,13 +5,36 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.model.CardType;
+import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
+import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 
 
 public class DrawCardFragment extends Fragment implements DrawCardContract.View {
+    //TODO; check if it will be used
+    @BindView(R.id.btn_draw_next)
+    Button btnNextCard;
+    @BindView(R.id.btn_draw_exit)
+    Button btnExitActivity;
+    @BindView(R.id.iv_draw_award)
+    ImageView ivAward;
+    @BindView(R.id.tv_draw_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_draw_description)
+    TextView tvDescription;
+    @BindView(R.id.rl_draw_typeValue)
+    RelativeLayout rlTypeValue;
+
 
     public DrawCardFragment() {
         // Required empty public constructor
@@ -35,12 +58,41 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (presenter == null) {
-            presenter = new DrawCardPresenter(this);
+            presenter = new DrawCardPresenter(this, getContext());
         }
         View view = inflater.inflate(R.layout.fragment_draw_card, container, false);
         ButterKnife.bind(this, view);
-
+        setSwipe(view);
+        tvTitle.setText(R.string.draw_info);
+        presenter.initDeck();
+        presenter.drawCard();
         return view;
+    }
+
+    private void setSwipe(final View view) {
+        view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
+            @Override
+            public void onSwipeLeft() {
+                makeToast("swipeLeft");
+                onNextCard();
+            }
+//            @Override
+//            public void onSwipeRight() {
+//                makeToast("swipeRight");
+//            }
+        });
+    }
+    public void showTypeValue(CardType type) {
+        TypeRange.drawHeart(rlTypeValue, getActivity(), type);
+    }
+
+    @OnClick(R.id.btn_draw_next)
+    public void onNextCard() {
+    }
+
+    @OnClick(R.id.btn_draw_exit)
+    public void onExit() {
+
     }
 
     @Override
@@ -58,4 +110,4 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    }
+}

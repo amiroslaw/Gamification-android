@@ -10,20 +10,19 @@ import xyz.miroslaw.gamification_android.R;
 
 public class DrawCardActivity extends AppCompatActivity {
     private FragmentManager manager;
-    DrawCardFragment fragment;
+    DeckListFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_card);
         manager = getSupportFragmentManager();
-        fragment = (DrawCardFragment) manager.findFragmentById(R.id.fragment_drawCard);
+        fragment = (DeckListFragment) manager.findFragmentById(R.id.fragment_deckManager);
         if (fragment == null) {
-            fragment = DrawCardFragment.newInstance();
+            fragment = DeckListFragment.newInstance();
         }
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fl_drawCard, fragment, fragment.getTag());
         transaction.commit();
-
     }
 }

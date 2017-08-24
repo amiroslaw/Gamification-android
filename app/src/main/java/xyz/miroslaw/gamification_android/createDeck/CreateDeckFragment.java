@@ -86,13 +86,11 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
         view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
             @Override
             public void onSwipeLeft() {
-                makeToast("swipeLeft");
                 onNextCard();
             }
 
             @Override
             public void onSwipeRight() {
-                makeToast("swipeRight");
                 if (!isFirstCard) presenter.onPrevClick();
             }
         });
@@ -143,8 +141,6 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
         etDescription.setText(description);
         ivAward.setImageURI(Tools.getUriFromPath(imgPath));
     }
-
-
 
     @Override
     public void clearTexts() {

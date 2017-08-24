@@ -4,6 +4,7 @@
     <string name="app_name">Gamification</string>
     <string name="all_next">Next</string>
     <string name="all_exit">Exit</string>
+    <string name="draw_info">Click next or swipe to draw a card</string>
     <string name="createDeck_name">Name:</string>
     <string name="all_enterName">Enter name</string>
     <string name="createDeck_description">Description:</string>
@@ -29,8 +30,8 @@
     <string name="all_save">Save</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
+        <item>Draw Card</item>
         <item>Deck Manager</item>
-        <!--<item>Draw Card</item>-->
         <item>About</item>
     </string-array>
     <string-array name="type_array">
