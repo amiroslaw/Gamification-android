@@ -17,6 +17,6 @@ public interface DrawCardContract {
         List<Item> getAdapterItems();
         boolean isAnyDeck();
         Card drawCard();
-        void initDeck();
+        void initDeck(int deckID);
     }
 }

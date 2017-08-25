@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.model.Card;
 import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
 import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
@@ -44,7 +45,7 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
         return new DrawCardFragment();
     }
 
-
+    private final String TAG = "myDebug " + getClass().getSimpleName();
     private DrawCardContract.Presenter presenter;
 
 
@@ -64,16 +65,19 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
         ButterKnife.bind(this, view);
         setSwipe(view);
         tvTitle.setText(R.string.draw_info);
-        presenter.initDeck();
-        presenter.drawCard();
+        presenter.initDeck(getDeckId());
         return view;
+    }
+
+    private int getDeckId() {
+        Bundle args = getArguments();
+        return args.getInt(DeckListFragment.DECK_ID);
     }
 
     private void setSwipe(final View view) {
         view.setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
             @Override
             public void onSwipeLeft() {
-                makeToast("swipeLeft");
                 onNextCard();
             }
 //            @Override
@@ -85,9 +89,17 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
     public void showTypeValue(CardType type) {
         TypeRange.drawHeart(rlTypeValue, getActivity(), type);
     }
-
+    Card currentCart;
     @OnClick(R.id.btn_draw_next)
     public void onNextCard() {
+        currentCart = presenter.drawCard();
+        makeToast(currentCart.getTitle());
+        showViews();
+    }
+
+    private void showViews() {
+        ivAward.setVisibility(View.VISIBLE);
+        tvDescription.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.btn_draw_exit)

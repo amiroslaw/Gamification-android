@@ -61,7 +61,7 @@ public class CardDao implements CommonDao {
     @Override
     public void deleteById(int id) {
         try {
-            dbHelper.getDeckDao().deleteById(id);
+            dbHelper.getCardDao().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
