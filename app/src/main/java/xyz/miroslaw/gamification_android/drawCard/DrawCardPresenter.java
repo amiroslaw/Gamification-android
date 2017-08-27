@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import xyz.miroslaw.gamification_android.database.dao.CardDao;
 import xyz.miroslaw.gamification_android.database.dao.DeckDao;
@@ -20,8 +21,10 @@ import static android.content.ContentValues.TAG;
 
 public class DrawCardPresenter implements Presenter{
     private DrawCardContract.View view;
-    DeckDao deckDao;
-    CardDao cardDao;
+    private DeckDao deckDao;
+    private CardDao cardDao;
+    private Deck deck;
+
     //TODO: switch to Deque
     private List<Card> cards;
 
@@ -31,18 +34,16 @@ public class DrawCardPresenter implements Presenter{
         deckDao = new DeckDao(context);
         cardDao = new CardDao(context);
     }
-
     @Override
-    public Card drawCard() {
-        Card removedCard = cards.remove(cards.size() - 1);
-        cardDao.deleteById(removedCard.getId());
-        return removedCard;
+    public void initDeck(int deckID) {
+        deck = deckDao.findById(deckID);
+        cards = cardDao.findAllFromDeck(deckID);
+        swapLargeAward();
     }
 
     @Override
-    public void initDeck(int deckID) {
-        cards = cardDao.findAllFromDeck(deckID);
-        swapLargeAward();
+    public void saveParametersInDB() {
+        deckDao.createOrUpdate(deck);
     }
 
     private void swapLargeAward() {
@@ -54,7 +55,36 @@ public class DrawCardPresenter implements Presenter{
         }
     }
 
+    @Override
+    public Card drawCard() {
+        Log.d(TAG, "drawCard: empty cards "+ deck.getHowManyBlankCards());
+        Card removedCard = null;
+        int deckSize = cards.size();
+        int randomIndex = getRandomIndex();
+        if (randomIndex >= 0) {
+            if(deckSize == 0){
+                deckDao.delete(deck);
+                view.onExit();
+            } else {
+                removedCard = cards.remove(deckSize - 1);
+                cardDao.deleteById(removedCard.getId());
+            }
+        }
+        return removedCard;
+    }
 
+    private int getRandomIndex() {
+        final int maxIndex = cards.size();
+        Random random = new Random();
+        int howManyBlankCards = deck.getHowManyBlankCards();
+        int randomIndex = random.nextInt(maxIndex + howManyBlankCards) + 1;
+        if (randomIndex > maxIndex) {
+            deck.setHowManyBlankCards(--howManyBlankCards);
+            return -1;
+        } else {
+            return randomIndex;
+        }
+    }
     @Override
     public List<Item> getAdapterItems() {
         List<Deck> decksList = deckDao.findAll();

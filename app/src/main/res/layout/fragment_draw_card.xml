@@ -15,7 +15,6 @@
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
@@ -24,7 +23,6 @@
         android:layout_height="wrap_content"
         android:text="@string/all_next"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         android:layout_marginTop="8dp" />
@@ -33,7 +31,6 @@
         android:id="@+id/tv_draw_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
         android:textSize="24sp"
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginTop="8dp"
@@ -46,35 +43,32 @@
     <ImageView
         android:id="@+id/iv_draw_award"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="7dp"
-        android:visibility="gone"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_draw_typeValue"
         app:layout_constraintVertical_chainStyle="spread"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/ic_launcher"
+        android:contentDescription="@string/draw_contentDescription"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_draw_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/tv_draw_description"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="desc"
         android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_draw_award"
-        app:layout_constraintVertical_bias="0.501" />
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/rl_draw_typeValue" />
 
 
     <android.support.constraint.Guideline
@@ -93,11 +87,24 @@
         android:layout_below="@id/btn_createCard_next"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@id/txt_createCard_type"
+        android:gravity="center"
         android:paddingTop="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_draw_title"
         tools:layout_editor_absoluteY="120dp"></RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Counter cards"
+        app:layout_constraintLeft_toRightOf="@+id/btn_draw_exit"
+        app:layout_constraintRight_toLeftOf="@+id/btn_draw_next"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
 
 </android.support.constraint.ConstraintLayout>

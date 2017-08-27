@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +44,9 @@ public class DeckListFragment extends Fragment implements DrawCardContract.View 
     RelativeLayout rlHeader;
     @BindView(R.id.txt_listCol_number)
     TextView txtNumberCol;
-    ActionMode actionMode;
+//    ActionMode actionMode;
     private ListAdapter listAdapter;
-    private int deckPosition;
+//    private int deckPosition;
 
     private DrawCardContract.Presenter presenter;
 
@@ -137,5 +136,9 @@ public class DeckListFragment extends Fragment implements DrawCardContract.View 
     @Override
     public void makeToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onExit() {
     }
 }

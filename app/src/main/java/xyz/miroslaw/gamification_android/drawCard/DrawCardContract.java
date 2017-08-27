@@ -11,6 +11,7 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 public interface DrawCardContract {
     interface View extends BaseView<Presenter> {
 
+        void onExit();
     }
 
     interface Presenter extends BasePresenter {
@@ -18,5 +19,7 @@ public interface DrawCardContract {
         boolean isAnyDeck();
         Card drawCard();
         void initDeck(int deckID);
+
+        void saveParametersInDB();
     }
 }

@@ -28,6 +28,10 @@
     <string name="cardList_type">type</string>
     <string name="cardEditor_addCard">Add card</string>
     <string name="all_save">Save</string>
+    <string name="draw_congratulations">Congratulations you drew all cards</string>
+    <string name="draw_blankCard">Blank card</string>
+    <string name="draw_sorryStatement">Sorry, you drew a blank card</string>
+    <string name="draw_contentDescription">image of award</string>
     <string-array name="menu_items">
         <item>Create Deck</item>
         <item>Draw Card</item>

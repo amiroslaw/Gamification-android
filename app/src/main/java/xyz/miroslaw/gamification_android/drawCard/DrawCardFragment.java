@@ -1,5 +1,7 @@
 package xyz.miroslaw.gamification_android.drawCard;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,9 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.menu.MenuActivity;
 import xyz.miroslaw.gamification_android.model.Card;
 import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
+import xyz.miroslaw.gamification_android.viewUtils.Tools;
 import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 
 
@@ -86,30 +90,46 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
 //            }
         });
     }
-    public void showTypeValue(CardType type) {
-        TypeRange.drawHeart(rlTypeValue, getActivity(), type);
-    }
-    Card currentCart;
+
     @OnClick(R.id.btn_draw_next)
     public void onNextCard() {
-        currentCart = presenter.drawCard();
-        makeToast(currentCart.getTitle());
-        showViews();
+        Card card = presenter.drawCard();
+        if(card == null){
+            showEmptyCard();
+        } else {
+            showViews(card);
+        }
     }
 
-    private void showViews() {
+    private void showEmptyCard() {
+        tvTitle.setText(R.string.draw_blankCard);
+        tvDescription.setText(R.string.draw_sorryStatement);
+        ivAward.setImageResource(R.mipmap.ic_empty);
+        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.EMPTY );
+    }
+
+    private void showViews(Card card) {
         ivAward.setVisibility(View.VISIBLE);
         tvDescription.setVisibility(View.VISIBLE);
+        tvTitle.setText(card.getTitle());
+        tvDescription.setText(card.getDescription());
+        TypeRange.drawHeart(rlTypeValue, getActivity(), card.getType());
+        Uri uriImg = Tools.getUriFromPath(card.getImage());
+        ivAward.setImageURI(uriImg);
     }
 
     @OnClick(R.id.btn_draw_exit)
+    @Override
     public void onExit() {
-
+        makeToast(getString(R.string.draw_congratulations));
+        Intent intent = new Intent(getContext(), MenuActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        presenter.saveParametersInDB();
     }
 
     @Override
