@@ -4,14 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,12 +37,14 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
     Button btnNextCard;
     @BindView(R.id.btn_draw_exit)
     Button btnExitActivity;
-    @BindView(R.id.iv_draw_award)
-    ImageView ivAward;
-    @BindView(R.id.tv_draw_title)
-    TextView tvTitle;
-    @BindView(R.id.tv_draw_description)
-    TextView tvDescription;
+    @BindView(R.id.is_draw_award)
+    ImageSwitcher isAward;
+    @BindView(R.id.ts_draw_title)
+    TextSwitcher tsTitle;
+    @BindView(R.id.ts_draw_description)
+    TextSwitcher tsDescription;
+    @BindView(R.id.ts_draw_counter)
+    TextSwitcher tsCounter;
     @BindView(R.id.rl_draw_typeValue)
     RelativeLayout rlTypeValue;
 
@@ -68,9 +76,35 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
         View view = inflater.inflate(R.layout.fragment_draw_card, container, false);
         ButterKnife.bind(this, view);
         setSwipe(view);
-        tvTitle.setText(R.string.draw_info);
+        setAnimation();
+        tsTitle.setCurrentText(getResources().getString(R.string.draw_info));
         presenter.initDeck(getDeckId());
         return view;
+    }
+
+    private void setAnimation() {
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+//        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+//        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+        tsTitle.setInAnimation(in);
+        tsTitle.setOutAnimation(out);
+        tsDescription.setInAnimation(in);
+        tsDescription.setOutAnimation(out);
+        tsCounter.setInAnimation(in);
+        tsCounter.setOutAnimation(out);
+        isAward.setOutAnimation(out);
+        isAward.setInAnimation(in);
+        isAward.addView(new ImageView(getContext()));
+        isAward.addView(new ImageView(getContext()));
+//        tsTitle.setFactory((ViewSwitcher.ViewFactory) makeView());
+        tsTitle.setFactory(viewFactory);
+//        tsTitle.addView(new TextView(getContext()));
+//        tsTitle.addView(new TextView(getContext()));
+//        tsDescription.addView(new TextView(getContext()));
+//        tsDescription.addView(new TextView(getContext()));
+        tsDescription.setFactory(viewFactory);
+        tsCounter.setFactory(viewFactory);
     }
 
     private int getDeckId() {
@@ -84,38 +118,29 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
             public void onSwipeLeft() {
                 onNextCard();
             }
-//            @Override
-//            public void onSwipeRight() {
-//                makeToast("swipeRight");
-//            }
         });
     }
 
     @OnClick(R.id.btn_draw_next)
     public void onNextCard() {
-        Card card = presenter.drawCard();
-        if(card == null){
-            showEmptyCard();
-        } else {
-            showViews(card);
-        }
+        presenter.drawCard();
     }
-
-    private void showEmptyCard() {
-        tvTitle.setText(R.string.draw_blankCard);
-        tvDescription.setText(R.string.draw_sorryStatement);
-        ivAward.setImageResource(R.mipmap.ic_empty);
-        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.EMPTY );
+    @Override
+    public void showEmptyCard() {
+        tsTitle.setText(getResources().getString(R.string.draw_blankCard));
+        tsDescription.setText(getResources().getString(R.string.draw_sorryStatement));
+        isAward.setImageResource(R.mipmap.ic_empty);
+        TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.EMPTY);
     }
-
-    private void showViews(Card card) {
-        ivAward.setVisibility(View.VISIBLE);
-        tvDescription.setVisibility(View.VISIBLE);
-        tvTitle.setText(card.getTitle());
-        tvDescription.setText(card.getDescription());
+    @Override
+    public void showAward(Card card) {
+        isAward.setVisibility(View.VISIBLE);
+        tsDescription.setVisibility(View.VISIBLE);
+        tsTitle.setText(card.getTitle());
+        tsDescription.setText(card.getDescription());
         TypeRange.drawHeart(rlTypeValue, getActivity(), card.getType());
         Uri uriImg = Tools.getUriFromPath(card.getImage());
-        ivAward.setImageURI(uriImg);
+        isAward.setImageURI(uriImg);
     }
 
     @OnClick(R.id.btn_draw_exit)
@@ -124,6 +149,11 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
         makeToast(getString(R.string.draw_congratulations));
         Intent intent = new Intent(getContext(), MenuActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showCardCounter(int counter) {
+        tsCounter.setText(String.valueOf(counter));
     }
 
     @Override
@@ -141,5 +171,16 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
     public void makeToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+    private ViewSwitcher.ViewFactory viewFactory = new ViewSwitcher.ViewFactory() {
+        // TODO: move to utils
+        @Override
+        public View makeView() {
+            TextView t = new TextView(getActivity());
+            t.setGravity(Gravity.CENTER);
+//            t.setWidth();
+//            t.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
+            return t;
+        }
+    };
 
 }

@@ -19,7 +19,7 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 import static android.content.ContentValues.TAG;
 
-public class DrawCardPresenter implements Presenter{
+public class DrawCardPresenter implements Presenter {
     private DrawCardContract.View view;
     private DeckDao deckDao;
     private CardDao cardDao;
@@ -28,16 +28,18 @@ public class DrawCardPresenter implements Presenter{
     //TODO: switch to Deque
     private List<Card> cards;
 
-    public DrawCardPresenter(DrawCardContract.View view, Context context){
+    public DrawCardPresenter(DrawCardContract.View view, Context context) {
         this.view = view;
         view.setPresenter(this);
         deckDao = new DeckDao(context);
         cardDao = new CardDao(context);
     }
+
     @Override
     public void initDeck(int deckID) {
         deck = deckDao.findById(deckID);
         cards = cardDao.findAllFromDeck(deckID);
+        Collections.shuffle(cards);
         swapLargeAward();
     }
 
@@ -56,35 +58,45 @@ public class DrawCardPresenter implements Presenter{
     }
 
     @Override
-    public Card drawCard() {
-        Log.d(TAG, "drawCard: empty cards "+ deck.getHowManyBlankCards());
-        Card removedCard = null;
+    public void drawCard() {
+        Card drawnCard;
         int deckSize = cards.size();
-        int randomIndex = getRandomIndex();
-        if (randomIndex >= 0) {
-            if(deckSize == 0){
-                deckDao.delete(deck);
-                view.onExit();
-            } else {
-                removedCard = cards.remove(deckSize - 1);
-                cardDao.deleteById(removedCard.getId());
-            }
+        int howManyBlankCards = deck.getHowManyBlankCards();
+        final boolean hasOnlyLargeAward = howManyBlankCards == 0 && deckSize == 1;
+
+        if (deckSize == 0) {
+            view.onExit();
         }
-        return removedCard;
+        // TODO: else?
+        if (hasOnlyLargeAward) {
+            drawnCard = cards.remove(0);
+            cardDao.deleteById(drawnCard.getId());
+            deckDao.delete(deck);
+            view.showAward(drawnCard);
+        } else if (isBlank()) {
+            view.showEmptyCard();
+            deck.setHowManyBlankCards(--howManyBlankCards);
+        } else {
+            drawnCard = cards.remove(deckSize - 1);
+            cardDao.deleteById(drawnCard.getId());
+            view.showAward(drawnCard);
+        }
+        view.showCardCounter(howManyBlankCards + cards.size());
+        Log.d(TAG, "drawCard: empty cards " + deck.getHowManyBlankCards());
     }
 
-    private int getRandomIndex() {
-        final int maxIndex = cards.size();
+    private boolean isBlank() {
         Random random = new Random();
-        int howManyBlankCards = deck.getHowManyBlankCards();
-        int randomIndex = random.nextInt(maxIndex + howManyBlankCards) + 1;
-        if (randomIndex > maxIndex) {
-            deck.setHowManyBlankCards(--howManyBlankCards);
-            return -1;
+        final int amountOfAwards = cards.size();
+        // random from 2 to all cards -1
+        int randomIndex = random.nextInt(amountOfAwards + deck.getHowManyBlankCards() - 1) + 2;
+        if (randomIndex > amountOfAwards) {
+            return true;
         } else {
-            return randomIndex;
+            return false;
         }
     }
+
     @Override
     public List<Item> getAdapterItems() {
         List<Deck> decksList = deckDao.findAll();

@@ -141,4 +141,9 @@ public class DeckListFragment extends Fragment implements DrawCardContract.View 
     @Override
     public void onExit() {
     }
+
+    @Override
+    public void showCardCounter(int counter) {
+
+    }
 }
