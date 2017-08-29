@@ -9,14 +9,12 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 
 public interface DrawCardContract {
-    interface View extends BaseView<Presenter> {
-
+    interface DeckListView extends BaseView<Presenter> {
+    }
+    interface DrawCardView extends BaseView<Presenter> {
         void showEmptyCard();
-
         void showAward(Card card);
-
         void onExit();
-
         void showCardCounter(int counter);
     }
 

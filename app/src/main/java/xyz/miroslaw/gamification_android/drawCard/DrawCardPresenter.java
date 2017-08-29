@@ -20,7 +20,8 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 import static android.content.ContentValues.TAG;
 
 public class DrawCardPresenter implements Presenter {
-    private DrawCardContract.View view;
+    private DrawCardContract.DeckListView deckListView;
+    private DrawCardContract.DrawCardView drawCardView;
     private DeckDao deckDao;
     private CardDao cardDao;
     private Deck deck;
@@ -28,8 +29,14 @@ public class DrawCardPresenter implements Presenter {
     //TODO: switch to Deque
     private List<Card> cards;
 
-    public DrawCardPresenter(DrawCardContract.View view, Context context) {
-        this.view = view;
+    public DrawCardPresenter(DrawCardContract.DeckListView view, Context context) {
+        this.deckListView = view;
+        view.setPresenter(this);
+        deckDao = new DeckDao(context);
+        cardDao = new CardDao(context);
+    }
+    public DrawCardPresenter(DrawCardContract.DrawCardView view, Context context) {
+        this.drawCardView = view;
         view.setPresenter(this);
         deckDao = new DeckDao(context);
         cardDao = new CardDao(context);
@@ -65,23 +72,23 @@ public class DrawCardPresenter implements Presenter {
         final boolean hasOnlyLargeAward = howManyBlankCards == 0 && deckSize == 1;
 
         if (deckSize == 0) {
-            view.onExit();
+            drawCardView.onExit();
         }
         // TODO: else?
         if (hasOnlyLargeAward) {
             drawnCard = cards.remove(0);
             cardDao.deleteById(drawnCard.getId());
             deckDao.delete(deck);
-            view.showAward(drawnCard);
+            drawCardView.showAward(drawnCard);
         } else if (isBlank()) {
-            view.showEmptyCard();
+            drawCardView.showEmptyCard();
             deck.setHowManyBlankCards(--howManyBlankCards);
         } else {
             drawnCard = cards.remove(deckSize - 1);
             cardDao.deleteById(drawnCard.getId());
-            view.showAward(drawnCard);
+            drawCardView.showAward(drawnCard);
         }
-        view.showCardCounter(howManyBlankCards + cards.size());
+        drawCardView.showCardCounter(howManyBlankCards + cards.size());
         Log.d(TAG, "drawCard: empty cards " + deck.getHowManyBlankCards());
     }
 
@@ -90,11 +97,7 @@ public class DrawCardPresenter implements Presenter {
         final int amountOfAwards = cards.size();
         // random from 2 to all cards -1
         int randomIndex = random.nextInt(amountOfAwards + deck.getHowManyBlankCards() - 1) + 2;
-        if (randomIndex > amountOfAwards) {
-            return true;
-        } else {
-            return false;
-        }
+        return randomIndex > amountOfAwards;
     }
 
     @Override

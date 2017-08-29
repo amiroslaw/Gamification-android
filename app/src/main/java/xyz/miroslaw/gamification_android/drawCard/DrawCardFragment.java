@@ -31,7 +31,8 @@ import xyz.miroslaw.gamification_android.viewUtils.Tools;
 import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 
 
-public class DrawCardFragment extends Fragment implements DrawCardContract.View {
+public class DrawCardFragment extends Fragment implements DrawCardContract.DrawCardView {
+    private final String TAG = "myDebug " + getClass().getSimpleName();
     //TODO; check if it will be used
     @BindView(R.id.btn_draw_next)
     Button btnNextCard;
@@ -45,21 +46,18 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.View 
     TextSwitcher tsDescription;
     @BindView(R.id.ts_draw_counter)
     TextSwitcher tsCounter;
+
     @BindView(R.id.rl_draw_typeValue)
     RelativeLayout rlTypeValue;
 
+    private DrawCardContract.Presenter presenter;
 
     public DrawCardFragment() {
         // Required empty public constructor
     }
-
     public static DrawCardFragment newInstance() {
         return new DrawCardFragment();
     }
-
-    private final String TAG = "myDebug " + getClass().getSimpleName();
-    private DrawCardContract.Presenter presenter;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

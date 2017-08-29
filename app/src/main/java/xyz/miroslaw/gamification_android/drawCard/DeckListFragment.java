@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import xyz.miroslaw.gamification_android.BaseView;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
@@ -30,7 +31,7 @@ import xyz.miroslaw.gamification_android.viewUtils.RecyclerTouchListener;
 import static android.os.Build.ID;
 
 
-public class DeckListFragment extends Fragment implements DrawCardContract.View {
+public class DeckListFragment extends Fragment implements DrawCardContract.DeckListView {
     public static final String DECK_ID = ID;
     private final String TAG = "myDebug " + getClass().getSimpleName();
 
@@ -138,12 +139,4 @@ public class DeckListFragment extends Fragment implements DrawCardContract.View 
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onExit() {
-    }
-
-    @Override
-    public void showCardCounter(int counter) {
-
-    }
 }
