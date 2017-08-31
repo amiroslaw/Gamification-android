@@ -4,8 +4,10 @@ package xyz.miroslaw.gamification_android.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable
-public class Card implements BaseModel {
+public class Card implements BaseModel, Serializable {
 
     @DatabaseField(generatedId = true)
     private int id;

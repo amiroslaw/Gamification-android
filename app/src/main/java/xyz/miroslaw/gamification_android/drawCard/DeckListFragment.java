@@ -20,7 +20,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import xyz.miroslaw.gamification_android.BaseView;
 import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
 import xyz.miroslaw.gamification_android.viewUtils.ClickListener;
@@ -116,7 +115,7 @@ public class DeckListFragment extends Fragment implements DrawCardContract.DeckL
         DrawCardFragment drawCardFragment = setupBundle(id);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_drawCard, drawCardFragment);
+        transaction.replace(R.id.fl_drawCard, drawCardFragment, "drawCard");
         transaction.addToBackStack(null);
         transaction.commit();
     }

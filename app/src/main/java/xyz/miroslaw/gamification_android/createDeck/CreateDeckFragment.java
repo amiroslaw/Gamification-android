@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.miroslaw.gamification_android.R;
-import xyz.miroslaw.gamification_android.deckManager.DeckManagerActivity;
+import xyz.miroslaw.gamification_android.drawCard.DrawCardActivity;
 import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.viewUtils.OnSwipeTouchListener;
 import xyz.miroslaw.gamification_android.viewUtils.Tools;
@@ -216,8 +216,8 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
     }
 
     @Override
-    public void startDeckManagerActivity() {
-        Intent intent = new Intent(getActivity(), DeckManagerActivity.class);
+    public void startDrawCardActivity() {
+        Intent intent = new Intent(getActivity(), DrawCardActivity.class);
         startActivity(intent);
     }
 

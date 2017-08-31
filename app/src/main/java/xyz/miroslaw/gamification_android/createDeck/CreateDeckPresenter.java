@@ -71,7 +71,7 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
     public void setDeckName(String deckName) {
         deck.setDeckName(deckName);
         saveDeck();
-        view.startDeckManagerActivity();
+        view.startDrawCardActivity();
     }
 
     private void saveDeck() {

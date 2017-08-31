@@ -33,6 +33,7 @@ import xyz.miroslaw.gamification_android.viewUtils.TypeRange;
 
 public class DrawCardFragment extends Fragment implements DrawCardContract.DrawCardView {
     private final String TAG = "myDebug " + getClass().getSimpleName();
+    private static final String COUNTER = "counter", SAVE_CARD = "card";
     //TODO; check if it will be used
     @BindView(R.id.btn_draw_next)
     Button btnNextCard;
@@ -46,15 +47,17 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.DrawC
     TextSwitcher tsDescription;
     @BindView(R.id.ts_draw_counter)
     TextSwitcher tsCounter;
-
     @BindView(R.id.rl_draw_typeValue)
     RelativeLayout rlTypeValue;
 
     private DrawCardContract.Presenter presenter;
+    private String cardCounter;
+    private Card card;
 
     public DrawCardFragment() {
         // Required empty public constructor
     }
+
     public static DrawCardFragment newInstance() {
         return new DrawCardFragment();
     }
@@ -80,31 +83,6 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.DrawC
         return view;
     }
 
-    private void setAnimation() {
-        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
-//        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-//        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
-        tsTitle.setInAnimation(in);
-        tsTitle.setOutAnimation(out);
-        tsDescription.setInAnimation(in);
-        tsDescription.setOutAnimation(out);
-        tsCounter.setInAnimation(in);
-        tsCounter.setOutAnimation(out);
-        isAward.setOutAnimation(out);
-        isAward.setInAnimation(in);
-        isAward.addView(new ImageView(getContext()));
-        isAward.addView(new ImageView(getContext()));
-//        tsTitle.setFactory((ViewSwitcher.ViewFactory) makeView());
-        tsTitle.setFactory(viewFactory);
-//        tsTitle.addView(new TextView(getContext()));
-//        tsTitle.addView(new TextView(getContext()));
-//        tsDescription.addView(new TextView(getContext()));
-//        tsDescription.addView(new TextView(getContext()));
-        tsDescription.setFactory(viewFactory);
-        tsCounter.setFactory(viewFactory);
-    }
-
     private int getDeckId() {
         Bundle args = getArguments();
         return args.getInt(DeckListFragment.DECK_ID);
@@ -123,15 +101,19 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.DrawC
     public void onNextCard() {
         presenter.drawCard();
     }
+
     @Override
     public void showEmptyCard() {
+        card = null;
         tsTitle.setText(getResources().getString(R.string.draw_blankCard));
         tsDescription.setText(getResources().getString(R.string.draw_sorryStatement));
         isAward.setImageResource(R.mipmap.ic_empty);
         TypeRange.drawHeart(rlTypeValue, getActivity(), CardType.EMPTY);
     }
+
     @Override
     public void showAward(Card card) {
+        this.card = card;
         isAward.setVisibility(View.VISIBLE);
         tsDescription.setVisibility(View.VISIBLE);
         tsTitle.setText(card.getTitle());
@@ -151,7 +133,30 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.DrawC
 
     @Override
     public void showCardCounter(int counter) {
-        tsCounter.setText(String.valueOf(counter));
+        cardCounter = String.valueOf(counter);
+        tsCounter.setText(cardCounter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(COUNTER, cardCounter);
+        outState.putSerializable(SAVE_CARD, card);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            card = (Card) savedInstanceState.getSerializable(SAVE_CARD);
+            cardCounter = savedInstanceState.getString(COUNTER);
+            if (card == null) {
+                showEmptyCard();
+            } else {
+                showAward(card);
+            }
+            tsCounter.setText(cardCounter);
+        }
     }
 
     @Override
@@ -162,21 +167,38 @@ public class DrawCardFragment extends Fragment implements DrawCardContract.DrawC
 
     @Override
     public void setPresenter(DrawCardContract.Presenter presenter) {
-
+        this.presenter = presenter;
     }
 
     @Override
     public void makeToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+    private void setAnimation() {
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+        tsTitle.setInAnimation(in);
+        tsTitle.setOutAnimation(out);
+        tsDescription.setInAnimation(in);
+        tsDescription.setOutAnimation(out);
+        tsCounter.setInAnimation(in);
+        tsCounter.setOutAnimation(out);
+        isAward.setOutAnimation(out);
+        isAward.setInAnimation(in);
+        isAward.addView(new ImageView(getContext()));
+        isAward.addView(new ImageView(getContext()));
+        tsTitle.setFactory(viewFactory);
+        tsDescription.setFactory(viewFactory);
+        tsCounter.setFactory(viewFactory);
+    }
+
     private ViewSwitcher.ViewFactory viewFactory = new ViewSwitcher.ViewFactory() {
         // TODO: move to utils
         @Override
         public View makeView() {
             TextView t = new TextView(getActivity());
             t.setGravity(Gravity.CENTER);
-//            t.setWidth();
-//            t.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
             return t;
         }
     };

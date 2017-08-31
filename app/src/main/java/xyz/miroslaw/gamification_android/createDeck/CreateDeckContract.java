@@ -12,7 +12,7 @@ public interface CreateDeckContract {
         void clearTexts();
         void disableReturning(boolean enable);
         void showDialog();
-        void startDeckManagerActivity();
+        void startDrawCardActivity();
     }
 
     interface Presenter extends BasePresenter{
