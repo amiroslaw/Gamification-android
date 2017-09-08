@@ -15,8 +15,9 @@ Features:
 - [x] creating a deck of cards
 - [x] managing decks 
 - [x] saving to database
-- [ ] editing cards
+- [x] editing cards
+- [ ] help
 
 ### Used technology and libraries
-SQLite, ORMLite, butterknife, junit, picasso  
+SQLite, ORMLite, butterknife, junit, espresso test, picasso
 The application was written in the MVP pattern.

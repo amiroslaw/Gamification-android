@@ -1,6 +1,7 @@
 package xyz.miroslaw.gamification_android.drawCard;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.menu.MenuActivity;
 
 public class DrawCardActivity extends AppCompatActivity {
     private final String TAG = "myDebug " + getClass().getSimpleName();
@@ -58,5 +60,19 @@ public class DrawCardActivity extends AppCompatActivity {
             outState.putBoolean(ACTIVE_FLAG, isDrawCardActive);
             manager.putFragment(outState, DRAW_CARD, drawCardFragment);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        } else {
+            getFragmentManager().popBackStack();
+        }
+
     }
 }

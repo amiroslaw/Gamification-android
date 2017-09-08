@@ -19,7 +19,7 @@ public interface CreateDeckContract {
         void onNextClick(String name, String description);
         void onPrevClick();
         void onImgBtnClick(String pathImg);
-        void setDeckName(String deckName);
+        void saveDeck(String deckName);
     }
 
 }

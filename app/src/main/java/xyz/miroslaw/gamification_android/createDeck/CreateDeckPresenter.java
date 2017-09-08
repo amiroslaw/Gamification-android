@@ -2,6 +2,7 @@ package xyz.miroslaw.gamification_android.createDeck;
 
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,7 +46,8 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
         }
     }
 
-    private CardType computeType(int cardCounter) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public CardType computeType(int cardCounter) {
         if (cardCounter == 1) return CardType.LARGE;
         if (cardCounter > 1 && cardCounter < 5) return CardType.MEDIUM;
         return CardType.SMALL;
@@ -53,11 +55,11 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
 
     @Override
     public void onPrevClick() {
-        cardCounter --;
+        cardCounter--;
         Card card = cards.pollLast();
         view.showTypeValue(card.getType());
         view.setPrevCardValues(card.getTitle(), card.getDescription(), card.getImage());
-        if(cardCounter <= 1){
+        if (cardCounter <= 1) {
             view.disableReturning(true);
         }
     }
@@ -68,13 +70,7 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
     }
 
     @Override
-    public void setDeckName(String deckName) {
-        deck.setDeckName(deckName);
-        saveDeck();
-        view.startDrawCardActivity();
-    }
-
-    private void saveDeck() {
+    public void saveDeck(String deckName) {
         deckDao.createOrUpdate(deck);
         Card card;
         while (!cards.isEmpty()) {

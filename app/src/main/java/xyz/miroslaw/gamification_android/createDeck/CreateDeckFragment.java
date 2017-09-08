@@ -33,9 +33,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateDeckFragment extends Fragment implements CreateDeckContract.View {
 
+    private final String TAG = "myDebug " + getClass().getSimpleName();
+
     private static final String STATE_IMG = "imagePath", STATE_TYPE = "cardType";
     private static final int SELECT_FILE = 0;
-    private final String TAG = "myDebug " + getClass().getSimpleName();
     @BindView(R.id.iv_createCard_award)
     ImageView ivAward;
     @BindView(R.id.et_createCard_name)
@@ -172,8 +173,8 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
                 String enteredName = etName.getText().toString();
                 boolean etIsNotEmpty = !enteredName.isEmpty();
                 if (etIsNotEmpty) {
-                    makeToast("send " + enteredName);
-                    presenter.setDeckName(enteredName);
+                    presenter.saveDeck(enteredName);
+                    startDrawCardActivity();
                     dialog.dismiss();
                 } else {
                     makeToast(getString(R.string.change_name_emptyField));
