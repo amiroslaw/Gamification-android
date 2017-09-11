@@ -15,10 +15,10 @@ import xyz.miroslaw.gamification_android.model.CardType;
 import xyz.miroslaw.gamification_android.model.Deck;
 
 public class CreateDeckPresenter implements CreateDeckContract.Presenter {
-    private final int maxCardInDeck = 2;
 
+    private final int maxCardInDeck = 2;
+    Deque<Card> cards = new ArrayDeque<>();
     private CreateDeckContract.View view;
-    private Deque<Card> cards = new ArrayDeque<>();
     private String imgPath = "";
     private int cardCounter = 1;
     private DeckDao deckDao;
@@ -47,7 +47,7 @@ public class CreateDeckPresenter implements CreateDeckContract.Presenter {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    public CardType computeType(int cardCounter) {
+    CardType computeType(int cardCounter) {
         if (cardCounter == 1) return CardType.LARGE;
         if (cardCounter > 1 && cardCounter < 5) return CardType.MEDIUM;
         return CardType.SMALL;

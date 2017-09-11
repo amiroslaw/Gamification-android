@@ -14,10 +14,10 @@ import xyz.miroslaw.gamification_android.viewUtils.Item;
 
 public class CardEditorPresenter implements CardEditorContract.Presenter{
 
+    List<Card> cardList;
     private CardEditorContract.CardListView cardListView;
     private CardEditorContract.CreateView createView;
     private CardDao cardDao;
-    private List<Card> cardList;
     private DeckDao deckDao;
 
     public CardEditorPresenter(CardEditorContract.CardListView view, Context context) {

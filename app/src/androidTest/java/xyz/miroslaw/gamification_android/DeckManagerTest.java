@@ -1,4 +1,4 @@
-package xyz.miroslaw.gamification_android.menu;
+package xyz.miroslaw.gamification_android;
 
 
 import android.support.test.espresso.ViewInteraction;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.menu.MenuActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;

@@ -24,10 +24,8 @@ public class DrawCardPresenter implements Presenter {
     private DrawCardContract.DrawCardView drawCardView;
     private DeckDao deckDao;
     private CardDao cardDao;
-    private Deck deck;
-
-    //TODO: switch to Deque
-    private List<Card> cards;
+    Deck deck;
+    List<Card> cards;
 
     public DrawCardPresenter(DrawCardContract.DeckListView view, Context context) {
         this.deckListView = view;
@@ -50,11 +48,6 @@ public class DrawCardPresenter implements Presenter {
         swapLargeAward();
     }
 
-    @Override
-    public void saveParametersInDB() {
-        deckDao.createOrUpdate(deck);
-    }
-
     private void swapLargeAward() {
         for (int i = 0; i < cards.size(); i++) {
             if (cards.get(i).getType() == CardType.LARGE) {
@@ -62,6 +55,11 @@ public class DrawCardPresenter implements Presenter {
                 break;
             }
         }
+    }
+
+    @Override
+    public void saveParametersInDB() {
+        deckDao.createOrUpdate(deck);
     }
 
     @Override
@@ -73,9 +71,7 @@ public class DrawCardPresenter implements Presenter {
 
         if (deckSize == 0) {
             drawCardView.onExit();
-        }
-        // TODO: else?
-        if (hasOnlyLargeAward) {
+        } else if (hasOnlyLargeAward) {
             drawnCard = cards.remove(0);
             cardDao.deleteById(drawnCard.getId());
             deckDao.delete(deck);
@@ -89,7 +85,6 @@ public class DrawCardPresenter implements Presenter {
             drawCardView.showAward(drawnCard);
         }
         drawCardView.showCardCounter(howManyBlankCards + cards.size());
-        Log.d(TAG, "drawCard: empty cards " + deck.getHowManyBlankCards());
     }
 
     private boolean isBlank() {

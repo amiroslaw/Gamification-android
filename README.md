@@ -11,7 +11,7 @@ Every award will be save in the card which can have a name, description and imag
 After you finish your daily task you can draw one card.  
 The application works the best with the "[Pomodoro Technique](https://cirillocompany.de/pages/pomodoro-technique)". You can draw one card when you will finish 1 or 2 intervals.  
 
-Features:
+### Features:
 - [x] creating a deck of cards
 - [x] managing decks 
 - [x] saving to database

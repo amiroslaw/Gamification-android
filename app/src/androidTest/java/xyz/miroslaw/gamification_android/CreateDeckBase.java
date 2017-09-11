@@ -1,4 +1,4 @@
-package xyz.miroslaw.gamification_android.menu;
+package xyz.miroslaw.gamification_android;
 
 
 import android.support.test.espresso.ViewInteraction;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import xyz.miroslaw.gamification_android.R;
+import xyz.miroslaw.gamification_android.menu.MenuActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -31,23 +32,26 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateDeckTest {
+public class CreateDeckBase {
 
     @Rule
     public ActivityTestRule<MenuActivity> mActivityTestRule = new ActivityTestRule<>(MenuActivity.class);
 
     @Test
-    public void createDeckTest() {
+    public void createDeckBase() {
         ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.text1), withText("Create Deck"),
+                allOf(withId(android.R.id.text1), withText("Deck Manager"),
                         childAtPosition(
                                 withId(R.id.lv_menu_menuitems),
-                                0),
+                                2),
                         isDisplayed()));
         appCompatTextView.perform(click());
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.btn_createCard_next), withText("Next"), isDisplayed()));
+                allOf(withId(R.id.btn_list_add), withText("Add deck"),
+                        withParent(allOf(withId(R.id.fragment_deckManager),
+                                withParent(withId(R.id.fragment_deckManager)))),
+                        isDisplayed()));
         appCompatButton.perform(click());
 
         ViewInteraction appCompatEditText = onView(
@@ -55,47 +59,64 @@ public class CreateDeckTest {
                         withParent(allOf(withId(R.id.fragment_createCard),
                                 withParent(withId(R.id.fragment_createCard)))),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("main award"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("large"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.et_createCard_description),
+                        withParent(allOf(withId(R.id.fragment_createCard),
+                                withParent(withId(R.id.fragment_createCard)))),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText("desc1"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.btn_createCard_next), withText("Next"), isDisplayed()));
         appCompatButton2.perform(click());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.et_createCard_name),
-                        withParent(allOf(withId(R.id.fragment_createCard),
-                                withParent(withId(R.id.fragment_createCard)))),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText("image"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.et_createCard_description),
                         withParent(allOf(withId(R.id.fragment_createCard),
                                 withParent(withId(R.id.fragment_createCard)))),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("desc"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.btn_createCard_next), withText("Next"), isDisplayed()));
-        appCompatButton4.perform(click());
+        appCompatEditText3.perform(replaceText("desc2"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.et_change_name), isDisplayed()));
-        appCompatEditText4.perform(replaceText("deck name"), closeSoftKeyboard());
+                allOf(withId(R.id.et_createCard_name),
+                        withParent(allOf(withId(R.id.fragment_createCard),
+                                withParent(withId(R.id.fragment_createCard)))),
+                        isDisplayed()));
+        appCompatEditText4.perform(replaceText("medium"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton5 = onView(
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.btn_createCard_next), withText("Next"), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.et_change_name), isDisplayed()));
+        appCompatEditText5.perform(replaceText("deck1"), closeSoftKeyboard());
+
+        ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.btn_change_name_accept), withText("OK"), isDisplayed()));
-        appCompatButton5.perform(click());
+        appCompatButton4.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.txt_deckList_name), withText("deck name"),
+                allOf(withId(R.id.txt_deckList_name), withText("deck1"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.rv_deckList),
                                         0),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("deck name")));
+        textView.check(matches(withText("deck1")));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.txt_list_number), withText("2"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.rv_deckList),
+                                        0),
+                                1),
+                        isDisplayed()));
+        textView2.check(matches(withText("2")));
 
     }
 
