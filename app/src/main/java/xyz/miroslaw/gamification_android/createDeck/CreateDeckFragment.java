@@ -123,9 +123,9 @@ public class CreateDeckFragment extends Fragment implements CreateDeckContract.V
         String name = etName.getText().toString();
         if (name.equals("")) {
             makeToast(getResources().getString(R.string.all_enterName));
-            etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
+            etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAlert));
         } else {
-            etName.setBackgroundColor(000);
+            etName.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             presenter.onNextClick(name, etDescription.getText().toString());
         }
     }

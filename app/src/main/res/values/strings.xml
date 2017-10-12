@@ -45,61 +45,27 @@
         <item>Large</item>
     </string-array>
     <string-array name="help_array_title">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Venus</item>
+        <item>About</item>
+        <item>Create a deck</item>
+        <item>Draw a card</item>
+        <item>Managing decks</item>
     </string-array>
     <string-array name="help_array_desc">
-        <item>Opis1</item>
-        <item>Now that we have an idea of how the various methods should be organized, we can start creating our app. We simplify the implementation by only focusing on the action to add a new note. The source files of this tutorial are available on GitHub.
-
-We use only one Activity with a layout that includes:
-
-EditText for new notes
-Button to add a note
-RecyclerView to list all notes
-two TextView elements and a Button inside a RecyclerView holder
-Interfaces
-Let’s begin by creating the interfaces. To keep everything organized, we place the interfaces within a holder. Again, in this example we focus on the action to add a new note.
-
-public interface MVP_Main {
-    /**
-     * Required View methods available to Presenter.
-     * A passive layer, responsible to show data
-     * and receive user interactions
-     */
-    interface RequiredViewOps {
-    	// View operations permitted to Presenter
-		Context getAppContext();
-        	Context getActivityContext();
-		void notifyItemInserted(int layoutPosition);
-        	void notifyItemRangeChanged(int positionStart, int itemCount);
-    }
+        <item>The motivational application uses the "gamification" method. The application can increase your motivation. </item>
+        <item>
+            Create 10 awards witch you want to achieve. The awards can be one of 3 types:
+\n- Large › what you want to do most, you can have only one in the set
+\n- Medium › 3 awards in the set
+\n- Small › 6 awards in the set
+\n
+Every award will be save in the card which can have a name, description and image.
 </item>
-        <item>Now that we have an idea of how the various methods should be organized, we can start creating our app. We simplify the implementation by only focusing on the action to add a new note. The source files of this tutorial are available on GitHub.
-
-We use only one Activity with a layout that includes:
-
-EditText for new notes
-Button to add a note
-RecyclerView to list all notes
-two TextView elements and a Button inside a RecyclerView holder
-Interfaces
-Let’s begin by creating the interfaces. To keep everything organized, we place the interfaces within a holder. Again, in this example we focus on the action to add a new note.
-
-public interface MVP_Main {
-    /**
-     * Required View methods available to Presenter.
-     * A passive layer, responsible to show data
-     * and receive user interactions
-     */
-    interface RequiredViewOps {
-    	// View operations permitted to Presenter
-		Context getAppContext();
-        	Context getActivityContext();
-		void notifyItemInserted(int layoutPosition);
-        	void notifyItemRangeChanged(int positionStart, int itemCount);
-    }
+        <item>
+            Your 9 cards (without a Large award) will be shuffled with 30 blank cards. The card with a large award will be put at the bottom of the deck. \n
+            You can delete card by swiping screen or clicking on the button "NEXT".
+        </item>
+        <item>
+            In this place you can manage your cars by duplicate or delete them.
 </item>
     </string-array>
 </resources>

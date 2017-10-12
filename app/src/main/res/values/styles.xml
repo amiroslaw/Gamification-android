@@ -1,5 +1,6 @@
 <resources>
 
+    <!--<style name="AppTheme" parent="@android:style/Theme.Material">-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -7,6 +8,22 @@
         <item name="android:textColorPrimary">@color/colorPrimaryTxt</item>
         <item name="android:textColorSecondary">@color/colorSecondaryTxt</item>
         <item name="android:fontFamily">sans-serif</item>
+        <item name="android:windowBackground">@color/colorPrimaryLight</item>
+        <item name="android:colorBackgroundCacheHint">@color/colorPrimaryLight</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:buttonStyle">@style/ButtonDefault</item>
+        <item name="android:editTextStyle">@style/EditText</item>
     </style>
 
+    <style name="ButtonDefault" parent="@android:style/Widget.Material.Button">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="EditText">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+    <!--<style name="ButtonCancel" parent="@android:style/Widget.AppCompat.Button.Colored">-->
+        <!--<item name="colorButtonNormal">@color/colorAlert</item>-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    <!--</style>-->
 </resources>

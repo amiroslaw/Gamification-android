@@ -16,7 +16,7 @@ The application works the best with the "[Pomodoro Technique](https://cirillocom
 - [x] managing decks 
 - [x] saving to database
 - [x] editing cards
-- [ ] help
+- [x] help
 
 ### Used technology and libraries
 SQLite, ORMLite, butterknife, junit, espresso test, picasso

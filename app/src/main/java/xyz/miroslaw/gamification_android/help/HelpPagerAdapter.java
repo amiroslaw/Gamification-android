@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import xyz.miroslaw.gamification_android.R;
 
@@ -16,7 +15,7 @@ public class HelpPagerAdapter  extends PagerAdapter{
 
     private String[] titles;
     private String[] descriptions;
-    private int images[] = {R.drawable.h0, R.drawable.h1};
+    private int images[] = {R.drawable.menu, R.drawable.create, R.drawable.draw, R.drawable.manager2};
     private LayoutInflater layoutInflater;
     Context ctx;
     HelpPagerAdapter(Context context) {
@@ -28,8 +27,7 @@ public class HelpPagerAdapter  extends PagerAdapter{
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
-        boolean hasImage = position < 2;
-        Toast.makeText(ctx, "position " + position, Toast.LENGTH_SHORT).show();
+        boolean hasImage = true;
         View view = layoutInflater.inflate(R.layout.help_layout, collection, false);
 //        TextView txtTitle = (TextView) view.findViewById(R.id.txt_help_title);
 //        txtTitle.setText(titles[position]);
