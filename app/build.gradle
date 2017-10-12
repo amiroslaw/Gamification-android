@@ -31,31 +31,28 @@ dependencies {
 
 //    apt 'com.jakewharton:butterknife-compiler:8.0.0'
 
-
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:25.3.1'
-
-    compile 'org.projectlombok:lombok:1.16.16'
-    annotationProcessor "org.projectlombok:lombok:1.16.16"
-
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-
 //    testCompile 'com.android.support.test:runner:0.5'
 //    testCompile 'com.android.support.test:rules:0.5'
 //    testCompile 'org.mockito:mockito-core:2.6.3'
 //    androidTestCompile 'org.mockito:mockito-android:2.6.3'
 
+    // Stetho core
+
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'org.projectlombok:lombok:1.16.16'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    provided 'javax.annotation:jsr250-api:1.0'
-
-    // Stetho core
-    compile 'com.facebook.stetho:stetho:1.5.0'
+        compile 'com.facebook.stetho:stetho:1.5.0'
+        testCompile 'junit:junit:4.12'
+        testCompile 'org.mockito:mockito-core:1.10.19'
+        annotationProcessor 'org.projectlombok:lombok:1.16.16'
+        annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+        provided 'javax.annotation:jsr250-api:1.0'
 
 
 }

@@ -22,6 +22,7 @@ import xyz.miroslaw.gamification_android.R;
 import xyz.miroslaw.gamification_android.createDeck.CreateDeckActivity;
 import xyz.miroslaw.gamification_android.deckManager.DeckManagerActivity;
 import xyz.miroslaw.gamification_android.drawCard.DrawCardActivity;
+import xyz.miroslaw.gamification_android.help.HelpActivity;
 
 public class MenuActivity extends AppCompatActivity implements MenuContract.View {
     private final int PERMISSIONS_REQUEST_STORAGE = 5;
@@ -70,6 +71,9 @@ public class MenuActivity extends AppCompatActivity implements MenuContract.View
                 break;
             case 2:
                 intent = new Intent(this, DeckManagerActivity.class);
+                break;
+            case 3:
+                intent = new Intent(this, HelpActivity.class);
                 break;
             default:
                 throw new IllegalArgumentException(String.valueOf(position));

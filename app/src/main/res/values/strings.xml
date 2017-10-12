@@ -37,11 +37,69 @@
         <item>Create Deck</item>
         <item>Draw Card</item>
         <item>Deck Manager</item>
-        <item>About</item>
+        <item>Help</item>
     </string-array>
     <string-array name="type_array">
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
+    </string-array>
+    <string-array name="help_array_title">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Venus</item>
+    </string-array>
+    <string-array name="help_array_desc">
+        <item>Opis1</item>
+        <item>Now that we have an idea of how the various methods should be organized, we can start creating our app. We simplify the implementation by only focusing on the action to add a new note. The source files of this tutorial are available on GitHub.
+
+We use only one Activity with a layout that includes:
+
+EditText for new notes
+Button to add a note
+RecyclerView to list all notes
+two TextView elements and a Button inside a RecyclerView holder
+Interfaces
+Let’s begin by creating the interfaces. To keep everything organized, we place the interfaces within a holder. Again, in this example we focus on the action to add a new note.
+
+public interface MVP_Main {
+    /**
+     * Required View methods available to Presenter.
+     * A passive layer, responsible to show data
+     * and receive user interactions
+     */
+    interface RequiredViewOps {
+    	// View operations permitted to Presenter
+		Context getAppContext();
+        	Context getActivityContext();
+		void notifyItemInserted(int layoutPosition);
+        	void notifyItemRangeChanged(int positionStart, int itemCount);
+    }
+</item>
+        <item>Now that we have an idea of how the various methods should be organized, we can start creating our app. We simplify the implementation by only focusing on the action to add a new note. The source files of this tutorial are available on GitHub.
+
+We use only one Activity with a layout that includes:
+
+EditText for new notes
+Button to add a note
+RecyclerView to list all notes
+two TextView elements and a Button inside a RecyclerView holder
+Interfaces
+Let’s begin by creating the interfaces. To keep everything organized, we place the interfaces within a holder. Again, in this example we focus on the action to add a new note.
+
+public interface MVP_Main {
+    /**
+     * Required View methods available to Presenter.
+     * A passive layer, responsible to show data
+     * and receive user interactions
+     */
+    interface RequiredViewOps {
+    	// View operations permitted to Presenter
+		Context getAppContext();
+        	Context getActivityContext();
+		void notifyItemInserted(int layoutPosition);
+        	void notifyItemRangeChanged(int positionStart, int itemCount);
+    }
+</item>
     </string-array>
 </resources>
